@@ -4,7 +4,7 @@ from django.utils.safestring import mark_safe
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(null=False,unique=True,max_length=200)
-    #parent = 
+    parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
     image = models.ImageField(blank=True, upload_to='categories/')
     keywords = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
