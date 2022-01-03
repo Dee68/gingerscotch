@@ -1,0 +1,30 @@
+{% extends "account_Base.html" %}
+{% load static %}
+{% block title %}
+ Login
+{% endblock title %}
+{% block header %}
+ Login Form
+{% endblock header %}
+{% block content %}
+ <div class="main-agileinfo">
+			<div class="agileits-top">
+				<form action="#" method="post">
+					<input class="text" type="text" name="Username" placeholder="Username" required="">
+                    <br>
+					<input class="text" type="password" name="password" placeholder="Password" required="">
+					<br>
+					<div class="wthree-text">
+						<label class="anim">
+							<input type="checkbox" class="checkbox" required="" checked="true">
+							<span>Keep me logged in</span>
+						</label>
+						<div class="clear"> </div>
+					</div>
+                    
+					<input type="submit" value="LOGIN">
+				</form>
+				<p>Don't have an Account? <a href="{% url 'account:registration' %}"> Signup Now!</a></p>
+			</div>
+</div>
+{% endblock content %}

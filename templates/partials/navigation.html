@@ -1,21 +1,22 @@
 {% load static %}
+{% url 'product:products' as products %}
 <nav class="fh5co-nav" role="navigation">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-3 col-xs-2">
-					<div id="fh5co-logo"><a href="index.html">Shop.</a></div>
+					<div id="fh5co-logo"><a href="{% url 'home:home' %}">Shop.</a></div>
 				</div>
-				<div class="col-md-6 col-xs-6 text-center menu-1">
+				<div class="col-md-6 col-xs-6 text-center menu-1" id="navi">
 					<ul>
-						<li class="has-dropdown">
-							<a href="product.html">Product</a>
+						<li class="has-dropdown {% if request.resolver_match.url_name == products %}class='active'{% endif %}">
+							<a href="{{ products }}">Product</a>
 							<ul class="dropdown">
-								<li><a href="single.html">Single Shop</a></li>
+								<li><a href="#">Single Shop</a></li>
 							</ul>
 						</li>
-						<li><a href="about.html">About</a></li>
+						<li {% if request.resolver_match.url_name == 'about' %}class="active"{% endif %}><a href="{% url 'home:about' %}">About</a></li>
 						<li class="has-dropdown">
-							<a href="services.html">Services</a>
+							<a href="#">Services</a>
 							<ul class="dropdown">
 								<li><a href="#">Web Design</a></li>
 								<li><a href="#">eCommerce</a></li>
@@ -23,7 +24,27 @@
 								<li><a href="#">API</a></li>
 							</ul>
 						</li>
-						<li><a href="contact.html">Contact</a></li>
+						<li {% if request.resolver_match.url_name == 'contact' %}class="active"{% endif %}><a href="{% url 'home:contact' %}">Contact</a></li>
+						<li class="has-dropdown">
+						  <a href="#"><i class="icon-lock login"></i> Account</a>
+						   <ul class="dropdown">
+							
+						     {% comment %} {% if user.id is not None  %}
+
+						     <li>
+						     <span>
+							 <img src="{% if userprofile.image %}{{ userprofile.image.url }}{% else %}{% static 'images/userimage.png' %}{% endif %}" style="height:40px; border-radius:30%;">
+							 </span>
+						     <a href="{% url 'logout' %}">logout</a>
+						    </li>
+							<li><a href="{% url 'account:userprofile' %}">Profile</a></li>
+						    {% else %}  {% endcomment %}
+						     <li><a href="{% url 'account:login' %}">Login</a></li>
+							  <li><a href="{% url 'account:registration' %}">Sign up</a></li>
+						     {% comment %} {% endif %}  {% endcomment %}
+							
+						   </ul>
+						</li>
 					</ul>
 				</div>
 				<div class="col-md-3 col-xs-4 text-right hidden-xs menu-2">

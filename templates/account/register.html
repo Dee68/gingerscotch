@@ -1,0 +1,47 @@
+{% extends "account_Base.html" %}
+{% load static %}
+{% block title %}
+ Sign Up
+{% endblock title %}
+{% block header %}
+ Signip Form
+{% endblock header %}
+{% block content %}
+ <div class="main-agileinfo">
+			<div class="agileits-top">
+				<form action="#" method="post">
+					<input class="text" type="text" name="Username" placeholder="Username" required="">
+                    <br>
+                    <input class="text" type="text" name="Firstname" placeholder="First Name" required="">
+                     <br>
+                    <input class="text" type="text" name="Lastname" placeholder="Last Name" required="">
+					<input class="text email" type="email" name="email" placeholder="Email" required="">
+					<input class="text" type="password" name="password" placeholder="Password" required="">
+					<input class="text w3lpass" type="password" name="password" placeholder="Confirm Password" required="">
+					<div class="wthree-text">
+						<label class="anim">
+							<input type="checkbox" class="checkbox" required="" checked="true">
+							<span>Customer</span>
+						</label>
+						<div class="clear"> </div>
+					</div>
+                    <div class="wthree-text">
+						<label class="anim">
+							<input type="checkbox" class="checkbox" required="" Disabled>
+							<span>Manager</span>
+						</label>
+						<div class="clear"> </div>
+					</div>
+                    <div class="wthree-text">
+						<label class="anim">
+							<input type="checkbox" class="checkbox" required="" Disabled>
+							<span>Admin</span>
+						</label>
+						<div class="clear"> </div>
+					</div>
+					<input type="submit" value="SIGNUP">
+				</form>
+				<p>Already have an Account? <a href="{% url 'account:login' %}"> Login Now!</a></p>
+			</div>
+</div>
+{% endblock content %}

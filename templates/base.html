@@ -37,6 +37,19 @@
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
+	
+	<script>
+	 const activePage = window.location.pathname;
+	 console.log(activePage);
+	 const navlinks = document.querySelectorAll("nav li").forEach(link => {
+		 if(link.href.includes(`${activePage}`)){
+			 link.classList.add('active');
+		 }
+	 });
+
+	
+	
+	</script>
 
 	</head>
 	<body>

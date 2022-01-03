@@ -15,8 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('', include('product.urls', namespace='product')),
+    path('', include('home.urls', namespace='home')),
+    path('products/', include('product.urls', namespace='product')),
+    path('account/', include('account.urls', namespace='account')),
     path('admin/', admin.site.urls),
+    path('ckeditor/',include('ckeditor_uploader.urls')),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+admin.site.site_header = 'Inuwa Agro Administration'
+admin.site.index_title = 'Manage Inuwa Agro-Poultry Hatchery LTD'
