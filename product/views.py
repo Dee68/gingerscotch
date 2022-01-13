@@ -5,5 +5,5 @@ from .models import *
 
 class ProductListView(ListView):
     def get(self, request, *args, **kwargs):
-        context = {}
+        context = {'nbar': 'products'}
         return render(request, 'product/home.html',context)

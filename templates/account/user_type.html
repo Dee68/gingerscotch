@@ -1,0 +1,24 @@
+{% extends "account_Base.html" %}
+{% load static %}
+{% block title %}
+ Customer Signup
+{% endblock title %}
+{% block header %}
+ Choose user type to signup to our system
+{% endblock header %}
+{% block content %}
+ <div class="main-agileinfo">
+			<div class="agileits-top">
+			
+			{% comment %} <div class="wthree-text">
+						<label class="anim">
+							{{ form.gender }}
+						</label>
+						<div class="clear"> </div>
+			</div> {% endcomment %}
+			<a href="{% url 'account:customer-registration' %}" class="sign">Customer</a> or <a href="#" class="sign">Manager</a>	
+			
+			</div>
+</div>
+{% endblock content %}
+

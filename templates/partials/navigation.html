@@ -1,5 +1,4 @@
 {% load static %}
-{% url 'product:products' as products %}
 <nav class="fh5co-nav" role="navigation">
 		<div class="container">
 			<div class="row">
@@ -8,8 +7,8 @@
 				</div>
 				<div class="col-md-6 col-xs-6 text-center menu-1" id="navi">
 					<ul>
-						<li class="has-dropdown {% if request.resolver_match.url_name == products %}class='active'{% endif %}">
-							<a href="{{ products }}">Product</a>
+						<li class="has-dropdown {% if nbar == 'products' %}active{% endif %}">
+							<a href="{% url 'product:products' %}">Products</a>
 							<ul class="dropdown">
 								<li><a href="#">Single Shop</a></li>
 							</ul>

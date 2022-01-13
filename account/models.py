@@ -1,12 +1,49 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 from django.utils.safestring import mark_safe
 # Create your models here.
 
 class CustomUser(AbstractUser):
-    is_customer = models.BooleanField(default=True)
-    is_manager = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
+    USER_TYPES = (
+        ('customer','CUSTOMER'),
+        ('manager','MANAGER')
+    )
+    user_type = models.CharField(max_length=10, choices=USER_TYPES, default='')
+    # is_customer = models.BooleanField("Is Customer",default=False)
+    # is_manager = models.BooleanField("Is Manager",default=False)
+    # first_name = models.CharField(max_length=50,blank=False, null=False)
+    # last_name = models.CharField(max_length=50,blank=False, null=False)
+    
+    
+    
+    
+
+
+
+
+class Customer(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,primary_key=True)
+    address = models.CharField(max_length=150)
+    postal_code = models.CharField(max_length=20)
+
+    def __str__(self):
+        return str(self.user.username)
+
+
+class Manager(models.Model):
+    DEPARTMENT = (
+        ('sales','Sales'),
+        ('production','Production'),
+    )
+    department = models.CharField(max_length=10, choices=DEPARTMENT, default='sales',blank=True,help_text="For Managers only")
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,primary_key=True)
+    phone = models.CharField(blank=True, max_length=20)
+    address = models.CharField(max_length=150)
+
+    def __str__(self):
+        return str(self.user.username)
+
 
 
 class Profile(models.Model):
@@ -14,7 +51,7 @@ class Profile(models.Model):
         ('male','male'),
         ('female','female'),
     )
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, primary_key=True)
     gender = models.CharField(max_length=6, choices=GENDER, default='male')
     bio = models.TextField(blank=True,null=True)
     phone = models.CharField(blank=True, max_length=20)
