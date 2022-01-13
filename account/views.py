@@ -5,7 +5,7 @@ from django.views import View
 from django.db import transaction
 from django.views.generic import CreateView,TemplateView
 from .models import CustomUser, Profile, Customer, Manager
-from .forms import CustomerCreationForm
+from .forms import CustomerCreationForm, ManagerCreationForm
 
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
@@ -103,8 +103,6 @@ class RegistrationView(TemplateView):
 
 
 
-
-
 class CustomUserRegister(View):
     def get(self, request, *args, **kwargs):
         form = CustomerCreationForm()
@@ -147,13 +145,17 @@ class CustomUserRegister(View):
             
             if form.is_valid():
                 user = form.save()
-                user.user_type = 'customer'
+                user.is_customer = True
                 user.set_password(password1)
                 user.save()
                 user.refresh_from_db()
-                user.customer.address = form.cleaned_data.get('address')
-                user.customer.postal_code = form.cleaned_data.get('postal_code')
-                user.customer.save()
+                customer = Customer.objects.create(user=user)
+                customer.address = form.cleaned_data.get('address')
+                customer.postal_code = form.cleaned_data.get('postal_code')
+                customer.save()
+                # user.customer.address = form.cleaned_data.get('address')
+                # user.customer.postal_code = form.cleaned_data.get('postal_code')
+                # user.customer.save()
                 
                 messages.success(request,mark_safe("Account created successfully.<br>You can now log in."))
                 return render(request, 'account/customer_register.html', context)
@@ -164,41 +166,79 @@ class CustomUserRegister(View):
         return render(request, 'account/customer_register.html', context)
 
 
-class CustomerCreate(CreateView):
-    model = CustomUser
-    form_class = CustomerCreationForm
-    template_name = 'account/customer_register.html'
-    success_url = '/'
+class ManageUserRegister(View):
+    def get(self, request, *args, **kwargs):
+        form = ManagerCreationForm()
+        context = {'form':form}
+        return render(request, 'account/manager_register.html', context)
 
-    # def get_context_data(self, **kwargs):
-    #     data = super().get_context_data(**kwargs)
-    #     # data['']
-    #     kwargs['user_type'] = 'customer'
-    #     return data
+    @transaction.atomic
+    def post(self,request):
+        form = ManagerCreationForm()
+        context = {'form':form}
+        if request.method == 'POST':
+            form = ManagerCreationForm(request.POST)
+            fieldVals = request.POST
+            username = request.POST.get('username')
+            firstname = request.POST.get('firstname')
+            lastname = request.POST.get('lastname')
+            user_email = request.POST.get('email')
+            password1 = request.POST.get('password1')
+            password2 = request.POST.get('password2')
+            department = request.POST.get('department')
+            phone = request.POST.get('phone')
+            address = request.POST.get('address')
+            context = {"fieldVals":fieldVals, 'form':form}
+            if CustomUser.objects.filter(username=username).exists():
+                messages.error(request, "username already in use, choose another one.")
+                return render(request, 'account/manager_register.html', context)
+            if CustomUser.objects.filter(email=user_email).exists():
+                messages.error(request, "sorry email already in use, please choose another one.")
+                return render(request, 'account/manager_register.html', context)
+            if len(password1) < 8:
+                messages.error(request,"password must be 8 characters or more")
+                return render(request, 'account/manager_register.html', context)
+            if not (password1 == password2):
+                messages.error(request, 'passwords did not match')
+                return render(request, 'account/manager_register.html', context)
+            # if (len(firstname) == 0 or len(lastname) == 0):
+            #     messages.error(request, mark_safe("Please fill in all fields,<br> they are all required"))
+            #     return render(request, 'account/customer_register.html', context)
+            
+            if form.is_valid():
+                user = form.save()
+                user.is_manager = True
+                user.set_password(password1)
+                user.save()
+                user.refresh_from_db()
+                manager = Manager.objects.create(user=user)
+                manager.department = form.cleaned_data.get('department')
+                manager.phone = form.cleaned_data.get('phone')
+                manager.address = form.cleaned_data.get('address')
+                manager.save()
+                
+                
+                messages.success(request,mark_safe("Account created successfully.<br>You can now log in."))
+                return render(request, 'account/manager_register.html', context)
+            else:
+                messages.error(request,"Invalid form, please fill in all fields.")
+                return render(request, 'account/manager_register.html', context)
 
-    # def form_valid(self, form):
-        # context = self.get_context_data()
-        # try:
-        #     with transaction.atomic():
-        #         user = CustomUser.objects.create_user(username=form.request.POST.get('username'), 
-        #                 email=form.request.POST.get('user_email'),
-        #                 first_name=form.request.POST.get('firstname'),
-        #                 last_name = form.request.POST.get('lastname'),
-        #                 password1 = form.request.POST.get('password1'),
-        #                 password2 = form.request.POST.get('password2'))
-        #         user.save(commit=False)
-        #         user.user_type = 'customer'
-        #         user.save()
-        #         customer = Customer.objects.create(user=user)
-        #         customer.address.add(*self.cleaned_data.get('address'))
-        #         customer.postal_code.add(*self.cleaned_data.get('postal_code'))
-        #         customer.save()
-        # except ValidationError:
-        #     return render(self.request, self.template_name, self.get_context_data)
-        # return super(CustomerCreate, self).form_valid(form)
+        return render(request, 'account/manager_register.html', context)
 
-        # user = form.save()
-        # return redirect('home:home')
+
+
+
+
+
+
+
+# class CustomerCreate(CreateView):
+#     model = CustomUser
+#     form_class = CustomerCreationForm
+#     template_name = 'account/customer_register.html'
+#     success_url = '/'
+
 
     
 

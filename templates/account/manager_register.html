@@ -9,7 +9,7 @@
 {% block content %}
  <div class="main-agileinfo">
 			<div class="agileits-top">
-				<form action="{% url 'account:customer-registration' %}" method="post">
+				<form action="{% url 'account:manager-registration' %}" method="post">
 				{% csrf_token %}
 				{% include "partials/_messages.html" %}
 					{{ form.username }}
@@ -31,10 +31,27 @@
 					{{ form.password1 }}
 					<small class="float-right py-3 showPasswdToggle">SHOW</small>
 					{{ form.password2 }}
+					{% comment %} <div class="wthree-text">
+						<label class="anim">
+						<span>Customer</span>
+							{{ form.is_customer }}
+						</label>
+						<label class="anim">
+							<span>Manager</span>{{ form.is_manager }}
+						</label>
+						<div class="clear"> </div>
+					</div>
+					<br> {% endcomment %}
+					<div class="wthree-text">
+						<label class="anim">
+							{{ form.department }}
+						</label>
+						<div class="clear"> </div>
+					</div>
+					<br>
+					{{ form.phone }}
 					<br>
 					{{ form.address }}
-					<br>
-					{{ form.postal_code }}
 		
 					
 

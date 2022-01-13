@@ -11,9 +11,9 @@ class CustomUserCreationForm(UserCreationForm):
     email = forms.CharField(max_length=100, widget=forms.EmailInput(attrs={'class':'text','placeholder':'Email','name':'email','id':'emailField','value':""}))
     password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'text','placeholder':'Password','name':'password1','id':'password1Field'}))
     password2 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'text w3lpass','name':'password2','id':'password2Field','placeholder':'Confirm Password'}))
-    user_type = forms.CharField(max_length=100,widget=forms.RadioSelect(attrs={'class':'checkbox','id':'user_type','name':'user_type'}))
-    # is_customer = forms.CharField(max_length=100, widget=forms.CheckboxInput(attrs={'class':'text','id':'customer','name':'customer'}))
-    # is_manager = forms.CharField(max_length=100, widget=forms.CheckboxInput(attrs={'class':'text','id':'manager','name':'manager'}))
+    # user_type = forms.CharField(max_length=100,widget=forms.RadioSelect(attrs={'class':'checkbox','id':'user_type','name':'user_type'}))
+    is_customer = forms.CharField(max_length=100, widget=forms.CheckboxInput(attrs={'class':'text','id':'customer','name':'customer'}))
+    is_manager = forms.CharField(max_length=100, widget=forms.CheckboxInput(attrs={'class':'text','id':'manager','name':'manager'}))
     # departments = (('sales','Sales'),('production','Production'))
     # department = forms.ChoiceField(choices=departments, widget=forms.RadioSelect(attrs={'class':'checkbox','id':'department','name':'department'}))
     
@@ -21,7 +21,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('username','first_name','last_name','email','password1','password2','user_type')
+        fields = ('username','first_name','last_name','email','password1','password2','is_customer','is_manager')
 
 
 class CustomerCreationForm(UserCreationForm):
@@ -31,10 +31,6 @@ class CustomerCreationForm(UserCreationForm):
     email = forms.CharField(max_length=100, widget=forms.EmailInput(attrs={'class':'text','placeholder':'Email','name':'email','id':'emailField','value':""}))
     password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'text','placeholder':'Password','name':'password1','id':'password1Field'}))
     password2 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'text w3lpass','name':'password2','id':'password2Field','placeholder':'Confirm Password'}))
-    # is_customer = forms.CharField(max_length=100, widget=forms.CheckboxInput(attrs={'class':'text','id':'customer','name':'customer'}))
-    # is_manager = forms.CharField(max_length=100, widget=forms.CheckboxInput(attrs={'class':'text','id':'manager','name':'manager'}))
-    # departments = (('sales','Sales'),('production','Production'))
-    # department = forms.ChoiceField(choices=departments, widget=forms.RadioSelect(attrs={'class':'checkbox','id':'department','name':'department'}))
     address = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'text','placeholder':'Address','name':'address','id':'address','value':""}))
     postal_code = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'text','placeholder':'Postal_Code','name':'postal_code','id':'postal_code','value':""}))
 
@@ -44,21 +40,7 @@ class CustomerCreationForm(UserCreationForm):
         fields = ('username','first_name','last_name','email','password1','password2','address','postal_code')
 
     
-    # def data_save(self):
-    #     with transaction.atomic():
-    #         user = super().save(commit=False)
-    #         user.user_type = 'customer'
-    #         user.save()
-    #         customer = Customer.objects.create(user=user)
-    #         customer.username.add(*self.cleaned_data.get('username'))
-    #         customer.first_name.add(*self.cleaned_data.get('first_name'))
-    #         customer.last_name.add(*self.cleaned_data.get('last_name'))
-    #         customer.email.add(*self.cleaned_data.get('email'))
-    #         customer.address.add(*self.cleaned_data.get('address'))
-    #         customer.postal_code.add(*self.cleaned_data.get('postal_code'))
-    #         customer.save()
-        
-    #     return user
+  
 
 
 class ManagerCreationForm(UserCreationForm):
@@ -69,14 +51,14 @@ class ManagerCreationForm(UserCreationForm):
     password1 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'text','placeholder':'Password','name':'password1','id':'password1Field'}))
     password2 = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'text w3lpass','name':'password2','id':'password2Field','placeholder':'Confirm Password'}))
     departments = (('sale','Sale'),('production','Production'),)
-    department = forms.ChoiceField(choices=departments, widget=forms.RadioSelect(attrs={'class':'checkbox','id':'gender','name':'gender'}))
-    postal_code = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'text','placeholder':'Telephone','name':'phone','id':'phone','value':""}))
+    department = forms.ChoiceField(choices=departments, widget=forms.RadioSelect(attrs={'class':'checkbox','id':'department','name':'department'}))
+    phone = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'text','placeholder':'Telephone','name':'phone','id':'phone','value':""}))
     address = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'text','placeholder':'Address','name':'address','id':'address','value':""}))
     
 
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('username','first_name','last_name','email','password1','password2','department','address','postal_code')
+        fields = ('username','first_name','last_name','email','password1','password2','department','phone','address')
     
         

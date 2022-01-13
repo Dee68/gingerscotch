@@ -11,7 +11,7 @@ class CustomUserAdmin(UserAdmin):
         *UserAdmin.fieldsets,
         (
             'User Type',
-            {'fields': ('user_type',)}
+            {'fields': ('is_customer','is_manager')}
         )
     )
 

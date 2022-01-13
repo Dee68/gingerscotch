@@ -14,10 +14,10 @@ def update_profile(sender, instance, created, **kwargs):
 
 
 
-@receiver(post_save, sender=CustomUser)
-def create_customer(sender, instance, created, **kwargs):
-    if created:
-        Customer.objects.create(user=instance)
+# @receiver(post_save, sender=CustomUser)
+# def create_customer(sender, instance, created, **kwargs):
+#     if created:
+#         Customer.objects.create(user=instance)
 
 # @receiver(post_save, sender=CustomUser)
 # def update_customer(sender, instance, created, **kwargs):

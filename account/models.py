@@ -5,13 +5,13 @@ from django.utils.safestring import mark_safe
 # Create your models here.
 
 class CustomUser(AbstractUser):
-    USER_TYPES = (
-        ('customer','CUSTOMER'),
-        ('manager','MANAGER')
-    )
-    user_type = models.CharField(max_length=10, choices=USER_TYPES, default='')
-    # is_customer = models.BooleanField("Is Customer",default=False)
-    # is_manager = models.BooleanField("Is Manager",default=False)
+    # USER_TYPES = (
+    #     ('customer','CUSTOMER'),
+    #     ('manager','MANAGER')
+    # )
+    # user_type = models.CharField(max_length=10, choices=USER_TYPES, default='')
+    is_customer = models.BooleanField("Is Customer",default=False)
+    is_manager = models.BooleanField("Is Manager",default=False)
     # first_name = models.CharField(max_length=50,blank=False, null=False)
     # last_name = models.CharField(max_length=50,blank=False, null=False)
     
@@ -36,7 +36,7 @@ class Manager(models.Model):
         ('sales','Sales'),
         ('production','Production'),
     )
-    department = models.CharField(max_length=10, choices=DEPARTMENT, default='sales',blank=True,help_text="For Managers only")
+    department = models.CharField(max_length=10, choices=DEPARTMENT, default='sales',help_text="For Managers only")
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,primary_key=True)
     phone = models.CharField(blank=True, max_length=20)
     address = models.CharField(max_length=150)
