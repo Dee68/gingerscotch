@@ -24,23 +24,23 @@
 							</ul>
 						</li>
 						<li {% if request.resolver_match.url_name == 'contact' %}class="active"{% endif %}><a href="{% url 'home:contact' %}">Contact</a></li>
-						<li class="has-dropdown">
-						  <a href="#"><i class="icon-lock login"></i> Account</a>
+						<li class="has-dropdown {% if nbar == 'profile' %}active{% endif %}">
+						  <a href="{% url 'account:profile' %}"><i class="icon-lock login"></i> Account</a>
 						   <ul class="dropdown">
 							
-						     {% comment %} {% if user.id is not None  %}
+						     {% if user.id is not None  %}
 
 						     <li>
 						     <span>
-							 <img src="{% if userprofile.image %}{{ userprofile.image.url }}{% else %}{% static 'images/userimage.png' %}{% endif %}" style="height:40px; border-radius:30%;">
+							 <img src="{% static 'images/userimage.png' %}" style="height:40px; border-radius:30%;">
 							 </span>
-						     <a href="{% url 'logout' %}">logout</a>
+						     <a href="{% url 'account:logout' %}">logout</a>
 						    </li>
-							<li><a href="{% url 'account:userprofile' %}">Profile</a></li>
-						    {% else %}  {% endcomment %}
+							<li><a href="{% url 'account:profile' %}">Profile</a></li>
+						    {% else %}  
 						     <li><a href="{% url 'account:login' %}">Login</a></li>
 							  <li><a href="{% url 'account:registration' %}">Sign up</a></li>
-						     {% comment %} {% endif %}  {% endcomment %}
+						     {% endif %}  
 							
 						   </ul>
 						</li>
@@ -56,7 +56,11 @@
 						      </span>
 						    </div>
 						</li>
+						{% if request.user.is_authenticated %}
 						<li class="shopping-cart"><a href="#" class="cart"><span><small>0</small><i class="icon-shopping-cart"></i></span></a></li>
+						{% else %}
+						{% endif %}
+						
 					</ul>
 				</div>
 			</div>

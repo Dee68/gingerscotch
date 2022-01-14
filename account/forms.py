@@ -1,3 +1,4 @@
+from re import M
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import CustomUser,Customer, Manager
@@ -60,5 +61,14 @@ class ManagerCreationForm(UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
         fields = ('username','first_name','last_name','email','password1','password2','department','phone','address')
+
+    
+class LoginForm(forms.ModelForm):
+    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'text','placeholder':'Username','name':'username','id':'usernameField','value':""}))
+    password = forms.CharField(max_length=100, widget=forms.PasswordInput(attrs={'class':'text','placeholder':'Password','name':'password','id':'passwordField'}))
+    class Meta:
+        model = CustomUser
+        fields = ('username','password')
+
     
         
