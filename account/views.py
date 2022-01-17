@@ -3,14 +3,20 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.views import View
 from django.db import transaction
-from django.views.generic import CreateView,TemplateView
+from django.views.generic import TemplateView
 from .models import CustomUser, Profile, Customer, Manager
 from .forms import CustomerCreationForm, ManagerCreationForm,LoginForm
-
+from django.core.mail import EmailMessage,send_mail
+from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.contrib.sites.shortcuts import get_current_site
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.core.validators import validate_email
 from django.http import JsonResponse,HttpResponseRedirect
+from .utils import token_generator
 
 import json
 # Create your views here.
@@ -61,19 +67,53 @@ class CustomUserRegister(View):
             user = form.save()
             user.is_customer = True
             user.set_password(password1)
+            user.is_active = False
             user.save()
             user.refresh_from_db()
             customer = Customer.objects.create(user=user)
             customer.address = form.cleaned_data.get('address')
             customer.postal_code = form.cleaned_data.get('postal_code')
-            customer.save()   
-            messages.success(request,mark_safe("Account created successfully.<br>You can now log in."))
+            customer.save()  
+            email_subject = 'Account activation'
+            # path to view
+            #-get domain
+            #-token
+            #-uidb64
+            uidb64 =urlsafe_base64_encode(force_bytes(user.pk))
+            domain = get_current_site(request).domain
+            link = reverse('account:activate',kwargs={'uidb64':uidb64,'token':token_generator.make_token(user)})
+            activate_url = 'http://'+domain+link
+            email_body = 'Hi '+user.username+',please use the link below to activate your account\n'+activate_url
+            send_mail(
+                email_subject,
+                email_body,
+                settings.EMAIL_HOST_USER,
+                [form.cleaned_data.get('email')],
+                fail_silently=False
+            )
+            
+            messages.success(request,mark_safe("Account created successfully.<br>Check your mail to activate account."))
             return render(request, 'account/customer_register.html', context)
         else:
             messages.error(request,"Invalid form, please fill in all fields.")
             return render(request, 'account/customer_register.html', context)
 
-        # return render(request, 'account/customer_register.html', context)
+class VerificationView(View):
+    def get(self,request,uidb64,token):
+        try:
+            id = force_text(urlsafe_base64_decode(uidb64))
+            user = CustomUser.objects.get(pk=id)
+            if not token_generator.check_token(user,token):
+                messages.warning(request,'Account already activated')
+                return redirect('home:home')
+            if user.is_active:
+                return redirect('account:login')
+            user.is_active = True
+            user.save()
+            messages.success(request,'Account successfully activated')
+        except Exception as ex:
+            pass
+        return redirect('account:login')
 
 
 class ManageUserRegister(View):
@@ -115,6 +155,7 @@ class ManageUserRegister(View):
         if form.is_valid():
             user = form.save()
             user.is_manager = True
+            user.is_active = False
             user.set_password(password1)
             user.save()
             user.refresh_from_db()
@@ -123,7 +164,25 @@ class ManageUserRegister(View):
             manager.phone = form.cleaned_data.get('phone')
             manager.address = form.cleaned_data.get('address')
             manager.save() 
-            messages.success(request,mark_safe("Account created successfully.<br>You can now log in."))
+            email_subject = 'Account activation'
+            # path to view
+            #-get domain
+            #-token
+            #-uidb64
+            uidb64 =urlsafe_base64_encode(force_bytes(user.pk))
+            domain = get_current_site(request).domain
+            link = reverse('account:activate',kwargs={'uidb64':uidb64,'token':token_generator.make_token(user)})
+            activate_url = 'http://'+domain+link
+            email_body = 'Hi '+user.username+',please use the link below to activate your account\n'+activate_url
+            send_mail(
+                email_subject,
+                email_body,
+                settings.EMAIL_HOST_USER,
+                [form.cleaned_data.get('email')],
+                fail_silently=False
+            )
+            
+            messages.success(request,mark_safe("Account created successfully.<br>Check your mail to acivate account."))
             return render(request, 'account/manager_register.html', context)
         else:
             messages.error(request,"Invalid form, please fill in all fields.")
@@ -182,19 +241,31 @@ class LoginView(View):
         password = request.POST.get('password')
         if username and password:
             user = authenticate(username=username,password=password)
-            if user:
+            if user is not None:
                 if user.is_active:
                     login(request,user)
-                    # messages.success(request, 'Welcome, '+user.username)
                     if user.is_customer:
+                        messages.success(request, 'Welcome, '+user.username)
                         return redirect('home:home')
-                    return render(request, 'account/manager_admin.html', context)
-                messages.info(request, 'Account not activated, please check your email')
+                    else:
+                        return render(request, 'account/manager_admin.html', context)  
+                # elif user.is_active== False and CustomUser.objects.filter(username=username).exists():
+                #     messages.error(request,'Account not activated,please check your mail to activate.')
+                    return render(request, 'account/login.html',context)
+            elif user is None and CustomUser.objects.filter(username=username,is_active=True).exists():
+                messages.error(request,'Invalid credentials, please try again.')
                 return render(request, 'account/login.html',context)
-            messages.error(request,'Invalid credentials, try again')
-            return render(request, 'account/login.html',context)
+            elif user is None and CustomUser.objects.filter(username=username,is_active=False).exists():
+                 messages.info(request,'Account not activated,please check your mail to activate.')
+                 return render(request, 'account/login.html',context)
+            else:
+                messages.error(request,'Please register to login to the system.')
+                return render(request, 'account/login.html',context)
+           
         messages.error(request, 'Please fill all fields to login')
         return render(request, 'account/login.html',context)
+
+        
 
 class LogoutPage(View):
     def get(self, request, *args, **kwargs):

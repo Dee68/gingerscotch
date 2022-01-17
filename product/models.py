@@ -1,10 +1,12 @@
 from django.db import models
 from django.utils.safestring import mark_safe
+from ckeditor_uploader.fields import RichTextUploadingField
+from mptt.models import MPTTModel, TreeForeignKey
 # Create your models here.
-class Category(models.Model):
+class Category(MPTTModel):
     name = models.CharField(max_length=100)
     slug = models.SlugField(null=False,unique=True,max_length=200)
-    parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
+    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     image = models.ImageField(blank=True, upload_to='categories/')
     keywords = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
@@ -13,6 +15,9 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'categories'
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
 
     def __str__(self):
         return self.name
@@ -26,6 +31,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(null=False,unique=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     keywords = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     in_stock = models.BooleanField(default=True)
