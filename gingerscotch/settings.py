@@ -162,7 +162,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') #'f v c x a x q q k 
 
 # adding config
 cloudinary.config( 
-  cloud_name = "dyrp3aqdq", 
-  api_key = "342688353939342", 
-  api_secret = "fSKFhi7mhgRTCVNj4x0LLyae5L8" 
+  cloud_name = os.environ.get('cloud_name'), 
+  api_key = os.environ.get('api_key'),
+  api_secret = os.environ.get('api_secret')
 )
