@@ -5,6 +5,7 @@ from django.views import View
 from django.db import transaction
 from django.views.generic import TemplateView
 from .models import CustomUser, Profile, Customer, Manager
+from product.models import Category
 from .forms import CustomerCreationForm, ManagerCreationForm,LoginForm
 from django.core.mail import EmailMessage,send_mail
 from django.conf import settings
@@ -135,6 +136,7 @@ class ManageUserRegister(View):
         department = request.POST.get('department')
         phone = request.POST.get('phone')
         address = request.POST.get('address')
+        
         context = {"fieldVals":fieldVals, 'form':form}
         if CustomUser.objects.filter(username=username).exists():
             messages.error(request, "username already in use, choose another one.")
@@ -248,7 +250,8 @@ class LoginView(View):
                         messages.success(request, 'Welcome, '+user.username)
                         return redirect('home:home')
                     else:
-                        return render(request, 'account/manager_admin.html', context)  
+                        category = Category.objects.filter(slug='birds')
+                        return render(request, 'account/manager_admin.html', {'category':category})  
                 # elif user.is_active== False and CustomUser.objects.filter(username=username).exists():
                 #     messages.error(request,'Account not activated,please check your mail to activate.')
                     return render(request, 'account/login.html',context)

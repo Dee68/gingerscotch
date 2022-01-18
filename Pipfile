@@ -9,6 +9,7 @@ pillow = "*"
 django-ckeditor = "*"
 django-mptt = "*"
 six = "*"
+cloudinary = "*"
 
 [dev-packages]
 

@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 from django.contrib import messages
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +48,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'mptt',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -155,3 +159,10 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_PORT = 587
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD') #'f v c x a x q q k r g r t f f r'
+
+# adding config
+cloudinary.config( 
+  cloud_name = "dyrp3aqdq", 
+  api_key = "342688353939342", 
+  api_secret = "fSKFhi7mhgRTCVNj4x0LLyae5L8" 
+)
