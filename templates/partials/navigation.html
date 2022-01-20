@@ -11,7 +11,7 @@
 							<a href="{% url 'product:products' %}">Products</a>
 							<ul class="dropdown">
 							   {% for cat in pcategories %}
-							   <li><a href="#">{{ cat.name }}</a></li>
+							   <li><a href="{% url 'product:show-category' cat.slug %}">{{ cat.name }}</a></li>
 							   {% endfor %}
 							</ul>
 						</li>

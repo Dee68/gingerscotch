@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+ {{ pcat.name }}
+{% endblock title %}
+
+{% block content %}
+{% include "partials/aside.html" %}
+{% include "partials/service.html" %}
+<div id="fh5co-product">
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					<span>Cool Stuff</span>
+					<h2>{{ pcat.name.title }} subcategories</h2>
+					<p>Dignissimos asperiores vitae velit veniam totam fuga molestias accusamus alias autem provident. Odit ab aliquam dolor eius.</p>
+				</div>
+			</div>
+			
+			
+			<div class="row">
+			{% for category in categories %}
+				<div class="col-md-4 text-center animate-box">
+					<div class="product">
+						<div class="product-grid" style="background-image:url({{ category.image.url }});">
+							<div class="inner">
+								<p>
+									{% comment %} <a href="single.html" class="icon"><i class="icon-shopping-cart"></i></a>
+									<a href="single.html" class="icon"><i class="icon-eye"></i></a> {% endcomment %}
+								</p>
+							</div>
+						</div>
+						<div class="desc">
+							<h3><a href="#l">{{ category.name }}</a></h3>
+							{% comment %} <span class="price">${{ product.price }}</span> {% endcomment %}
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+				
+			</div>
+			
+			
+		</div>
+</div>
+<div id="fh5co-testimonial" class="fh5co-bg-section">
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="row animate-box">
+						{% comment %} <div class="owl-carousel owl-carousel-fullwidth">
+							<div class="item">
+								<div class="testimony-slide active text-center">
+									
+								</div>
+							</div>
+							<div class="item">
+								<div class="testimony-slide active text-center">
+									
+								</div>
+							</div>
+							<div class="item">
+								<div class="testimony-slide active text-center">
+								
+								</div>
+							</div>
+						</div> {% endcomment %}
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+{% comment %} {% include "partials/testimony.html" %} {% endcomment %}
+{% comment %} {% include "partials/counter.html" %} {% endcomment %}
+<div id="fh5co-started">
+		<div class="container">
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+					
+				</div>
+			</div>
+			<div class="row animate-box">
+				<div class="col-md-8 col-md-offset-2">
+					
+			</div>
+		</div>
+	</div>
+
+{% endblock content %}
+<!--  service -->
+	<! -- product -->
+	<! -- testimony -->
+	<! -- counter -->
+    <! -- newsletter -->
