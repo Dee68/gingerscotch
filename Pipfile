@@ -10,6 +10,7 @@ django-ckeditor = "*"
 django-mptt = "*"
 six = "*"
 cloudinary = "*"
+psycopg2 = "*"
 
 [dev-packages]
 

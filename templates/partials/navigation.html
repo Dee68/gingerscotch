@@ -10,7 +10,9 @@
 						<li class="has-dropdown {% if nbar == 'products' %}active{% endif %}">
 							<a href="{% url 'product:products' %}">Products</a>
 							<ul class="dropdown">
-								<li><a href="#">Single Shop</a></li>
+							   {% for cat in pcategories %}
+							   <li><a href="#">{{ cat.name }}</a></li>
+							   {% endfor %}
 							</ul>
 						</li>
 						<li {% if request.resolver_match.url_name == 'about' %}class="active"{% endif %}><a href="{% url 'home:about' %}">About</a></li>

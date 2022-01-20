@@ -3,6 +3,7 @@ from django.utils.safestring import mark_safe
 from ckeditor_uploader.fields import RichTextUploadingField
 from mptt.models import MPTTModel, TreeForeignKey
 from cloudinary.models import CloudinaryField
+from django.conf import settings
 # Create your models here.
 class Category(MPTTModel):
     name = models.CharField(max_length=100)
@@ -42,6 +43,7 @@ class Product(models.Model):
     image = CloudinaryField('image')#models.ImageField(blank=True, upload_to='products/')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    users_wishlist = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,related_name='users_wishlist')
 
     def __str__(self):
         return self.name

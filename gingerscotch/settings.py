@@ -75,6 +75,8 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 "django.template.context_processors.request",
                 'django.contrib.messages.context_processors.messages',
+                # custom context_processors
+                'product.context_processors.access_parent_category',
             ],
         },
     },
@@ -88,8 +90,12 @@ WSGI_APPLICATION = 'gingerscotch.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME'),#BASE_DIR / 'db.sqlite3',
+        'USER':os.environ.get('DB_USER'),
+        'PASSWORD':os.environ.get('DB_USER_PASSWORD'),
+        'HOST':os.environ.get('DB_HOST'),
+        'PORT':5432
     }
 }
 
