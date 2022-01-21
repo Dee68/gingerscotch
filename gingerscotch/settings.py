@@ -93,10 +93,10 @@ WSGI_APPLICATION = 'gingerscotch.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DB_NAME,#os.environ.get('DB_NAME'),#BASE_DIR / 'db.sqlite3',
-        'USER':DB_USER,#os.environ.get('DB_USER'),
-        'PASSWORD':DB_USER_PASSWORD,#os.environ.get('DB_USER_PASSWORD'),
-        'HOST':DB_HOST,#os.environ.get('DB_HOST'),
+        'NAME': os.getenv('DB_NAME'),#os.environ.get('DB_NAME'),#BASE_DIR / 'db.sqlite3',
+        'USER':os.getenv('DB_USER'),#os.environ.get('DB_USER'),
+        'PASSWORD':os.getenv('DB_USER_PASSWORD'),#os.environ.get('DB_USER_PASSWORD'),
+        'HOST':os.getenv('DB_HOST'),#os.environ.get('DB_HOST'),
         'PORT':5432
     }
 }
