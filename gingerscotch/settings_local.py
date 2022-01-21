@@ -16,6 +16,7 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import cloudinary_storage
 import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'mptt',
+    'cloudinary_storage',
     'cloudinary',
 ]
 
@@ -180,3 +182,4 @@ cloudinary.config(
   api_key = os.environ.get('api_key'),
   api_secret = os.environ.get('api_secret')
 )
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
