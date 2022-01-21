@@ -157,7 +157,8 @@ CKEDITOR_UPLOAD_PATH="uploads/"
 
 #django_heroku.settings(locals())
 django_heroku.settings(config=locals(), staticfiles=False,logging=False)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+WHITENOISE_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Default primary key field type
 
 # Default primary key field type
