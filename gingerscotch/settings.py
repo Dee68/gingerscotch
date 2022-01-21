@@ -16,6 +16,7 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')#'django-insecure-jj98b6g989n_@ib-$$24^w&x)+40j)v8@j-ay%$1l(+5ks+#fk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -152,6 +153,10 @@ MEDIA_ROOT = BASE_DIR / 'assets/'
 
 #ckeditor upload path
 CKEDITOR_UPLOAD_PATH="uploads/"
+
+#django_heroku.settings(locals())
+django_heroku.settings(config=locals(), staticfiles=False,logging=False)
+# Default primary key field type
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

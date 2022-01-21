@@ -11,6 +11,8 @@ django-mptt = "*"
 six = "*"
 cloudinary = "*"
 psycopg2 = "*"
+gunicorn = "*"
+django-heroku = "*"
 
 [dev-packages]
 
