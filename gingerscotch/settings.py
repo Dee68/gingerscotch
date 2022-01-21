@@ -31,7 +31,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')#'django-insecure-jj98b6g989n_@ib-$$24^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['agrofarm.herokuapp.com','localhost','127.0.0.1']
+ALLOWED_HOSTS = ['https://agrofarm.herokuapp.com','localhost','127.0.0.1']
 
 
 # Application definition
