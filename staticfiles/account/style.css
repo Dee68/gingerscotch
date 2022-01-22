@@ -123,12 +123,12 @@ img {
 
 /*-- end reset --*/
 body {
-  background: #d1c286;
+  background: #76b852;
   /* fallback for old browsers */
-  background: -webkit-linear-gradient(to top, #d1c286, #d1c286);
-  background: -moz-linear-gradient(to top, #d1c286, #d1c286);
-  background: -o-linear-gradient(to top, #d1c286, #d1c286);
-  background: linear-gradient(to top, #d1c286, #d1c286);
+  background: -webkit-linear-gradient(to top, #76b852, #8DC26F);
+  background: -moz-linear-gradient(to top, #76b852, #8DC26F);
+  background: -o-linear-gradient(to top, #76b852, #8DC26F);
+  background: linear-gradient(to top, #76b852, #8DC26F);
   background-size: cover;
   background-attachment: fixed;
   font-family: 'Roboto', sans-serif;
@@ -244,9 +244,9 @@ input.email, input.text.w3lpass {
 input[type="submit"] {
   font-size: .9em;
   color: #fff;
-  background: #d1c286;
+  background: #76b852;
   outline: none;
-  border: 1px solid #d1c286;
+  border: 1px solid #76b852;
   cursor: pointer;
   padding: 0.9em;
   -webkit-appearance: none;
@@ -261,9 +261,21 @@ input[type="submit"]:hover {
   -o-transition: .5s all;
   -ms-transition: .5s all;
   transition: .5s all;
-  background: #d1c286;
+  background: #8DC26F;
 }
-
+a.socialbtns {
+  font-size: .9em;
+  color: #fff;
+  background: #76b852;
+  outline: none;
+  border: 1px solid #76b852;
+  cursor: pointer;
+  padding: 0.9em;
+  -webkit-appearance: none;
+  width: 100%;
+  margin: 2em 0;
+  letter-spacing: 4px;
+}
 .agileits-top p {
   font-size: 1em;
   color: #fff;
@@ -281,7 +293,7 @@ input[type="submit"]:hover {
 }
 
 .agileits-top p a:hover {
-  color: #d1c286;
+  color: #76b852;
 }
 
 /*-- //main --*/
@@ -295,7 +307,7 @@ input[type="submit"]:hover {
 }
 
 input.checkbox {
-  background: #d1c286;
+  background: #8DC26F;
   cursor: pointer;
   width: 1.2em;
   height: 1.2em;
