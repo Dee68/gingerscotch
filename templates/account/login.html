@@ -23,6 +23,7 @@
 							<input type="checkbox" class="checkbox" disabled=true checked=true>
 							<span>Keep me logged in</span>
 						</label>
+						<p><a href="{% url 'password_reset' %}" style="float:right;">Forgot your password?</a></p>
 						<div class="clear"> </div>
 					</div>
                     
@@ -30,5 +31,19 @@
 				</form>
 				<p>Don't have an Account? <a href="{% url 'account:registration' %}"> Signup Now!</a></p>
 			</div>
+		<div class="seperator"><b>or</b></div>
+		<div class="agileits-top">
+			<a href="#" class="fb btn">
+          <i class="fa fa-facebook fa-fw"></i> Login with Facebook
+          </a>
+          <a href="#" class="twitter btn">
+          <i class="fa fa-twitter fa-fw"></i> Login with Twitter
+         </a>
+         <a href="#" class="google btn">
+          <i class="fa fa-google fa-fw"></i> Login with Google+
+         </a>
+				
+				
+		</div>
 </div>
 {% endblock content %}
