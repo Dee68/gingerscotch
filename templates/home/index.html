@@ -2,16 +2,22 @@
 {% block title %}
  home
 {% endblock title %}
-
-{% block content %}
+{% block aside %}
 {% include "partials/aside.html" %}
+{% endblock aside %}
+{% block service %}
 {% include "partials/service.html" %}
+{% endblock service %}
+{% block product %}
 {% include "partials/product.html" %}
+{% endblock product %}
+{% block testimony %}
 {% include "partials/testimony.html" %}
 {% comment %} {% include "partials/counter.html" %} {% endcomment %}
+{% endblock testimony %}
+{% block newsletter %}
 {% include "partials/newsletter.html" %}
-
-{% endblock content %}
+{% endblock newsletter %}
 <!--  service -->
 	<! -- product -->
 	<! -- testimony -->

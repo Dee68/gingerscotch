@@ -4,8 +4,7 @@
  contact us
 {% endblock title %}
 
-{% block content %}
-
+{% block aside %}
 	<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner" style="background-image:url({% static 'images/img_bg_2.jpg' %});">
 		<div class="overlay"></div>
 		<div class="container">
@@ -21,6 +20,8 @@
 			</div>
 		</div>
 	</header>
+{% endblock aside %}
+{% block product %}
     <div id="fh5co-contact">
 		<div class="container">
 			<div class="row">
@@ -80,16 +81,18 @@
 			
 		</div>
 	</div>
+{% endblock product %}
+{% block counter %}
 
-	<div id="map" class="animate-box" data-animate-effect="fadeIn"></div>
-    <div id="fh5co-started">
-	<div class="container">
+<div id="map" class="animate-box" data-animate-effect="fadeIn"></div>
+<div id="fh5co-started">
+<div class="container">
     <div class="row animate-box">
     <div id="map" class="animate-box" data-animate-effect="fadeIn" style="align:center;">
-	<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44581.35319916793!2d7.270452134433567!3d9.020621288251457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e70b798def501%3A0xbdeebcc99b337cd0!2zOTAwMTA2LCBHd2Fza2EsINCd0ZbQs9C10YDRltGP!5e0!3m2!1suk!2sua!4v1641242757093!5m2!1suk!2sua" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+	<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d44581.35319916793!2d7.270452134433567!3d9.020621288251457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e70b798def501%3A0xbdeebcc99b337cd0!2zOTAwMTA2LCBHd2Fza2EsINCd0ZbQs9C10YDRltGP!5e0!3m2!1suk!2sua!4v1641242757093!5m2!1suk!2sua" width="100%" height="600" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
 	</div>
-	</div>
-	</div>
-    </div>
+</div>
+</div>
+</div>
 
-{% endblock content %}
+{% endblock counter %}

@@ -2,14 +2,22 @@
 {% block title %}
  products
 {% endblock title %}
-
-{% block content %}
+{% block aside %}
 {% include "partials/aside.html" %}
+{% endblock aside %}
+{% block service %}
 {% include "partials/service.html" %}
+{% endblock service %}
+{% block product %}
 {% include "partials/product.html" %}
+{% endblock product %}
+{% block testimony %}
 {% include "partials/testimony.html" %}
 {% comment %} {% include "partials/counter.html" %} {% endcomment %}
-<div id="fh5co-started">
+{% endblock testimony %}
+
+{% comment %} {% include "partials/counter.html" %} {% endcomment %}
+{% comment %} <div id="fh5co-started">
 		<div class="container">
 			<div class="row animate-box">
 				<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
@@ -28,10 +36,10 @@
 				</div>
 			</div>
 		</div>
-	</div>
+</div> {% endcomment %}
 {% comment %} {% include "partials/newsletter.html" %} {% endcomment %}
 
-{% endblock content %}
+
 <!--  service -->
 	<! -- product -->
 	<! -- testimony -->

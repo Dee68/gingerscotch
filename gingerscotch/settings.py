@@ -81,6 +81,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # custom context_processors
                 'product.context_processors.access_parent_category',
+                'home.context_processors.access_settings',
             ],
         },
     },

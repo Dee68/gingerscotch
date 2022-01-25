@@ -30,7 +30,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY')#'django-insecure-jj98b6g989n_@ib-$$24^w&x)+40j)v8@j-ay%$1l(+5ks+#fk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['https://agrofarm.herokuapp.com','localhost','127.0.0.1']
 
@@ -81,6 +81,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # custom context_processors
                 'product.context_processors.access_parent_category',
+                'home.context_processors.access_settings',
             ],
         },
     },

@@ -8,9 +8,9 @@
     
     {% endblock title %}</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Free HTML5 Website Template by gettemplates.co" />
-	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
-	<meta name="author" content="gettemplates.co" />
+	<meta name="description" content="{{ setting.description }}" />
+	<meta name="keywords" content="{{ setting.keywords }}" />
+	
 
 
 	
@@ -39,23 +39,23 @@
 	<![endif]-->
 	
 	<script>
-	 const activePage = window.location.pathname;
-	 console.log(activePage);
-	 const navlinks = document.querySelectorAll("nav li").forEach(link => {
-		 if(link.href.includes(`${activePage}`)){
-			 link.classList.add('active');
-		 }
-	 });
-    var m = document.getElementsByClassName("alert");  // Return an array
+		const activePage = window.location.pathname;
+		console.log(activePage);
+		const navlinks = document.querySelectorAll("nav li").forEach(link => {
+			if(link.href.includes(`${activePage}`)){
+				link.classList.add('active');
+			}
+		});
+		var m = document.getElementsByClassName("alert");  // Return an array
 
-setTimeout(function(){
-   if (m && m.length) {
-       m[0].classList.add('hide');
-   }
-}, 3000);
+		setTimeout(function(){
+		if (m && m.length) {
+			m[0].classList.add('hide');
+		}
+		}, 3000);
 
-	
-	
+		
+		
 	</script>
 
 	</head>
@@ -64,19 +64,154 @@ setTimeout(function(){
 	<div class="fh5co-loader"></div>
 	
 	<div id="page">
-	{% include "partials/navigation.html" %}
-	
-	<! -- aside -->
-	<!--  service -->
-	<! -- product -->
-	<! -- testimony -->
-	<! -- counter -->
-    <! -- newsletter -->
-    {% block content %}
-    
-    {% endblock content %}
+	<nav class="fh5co-nav" role="navigation">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-3 col-xs-2">
+					<div id="fh5co-logo"><a href="{% url 'home:home' %}"><img class="mix-blend-mode" src="https://res.cloudinary.com/dyrp3aqdq/image/upload/v1642513665/inuwalogo_ymgoty.png" width="160" height="130" alt="logo"/></a></div>
+				</div>
+				<div class="col-md-6 col-xs-6 text-center menu-1" id="navi">
+					<ul>
+						<li class="has-dropdown {% if nbar == 'products' %}active{% endif %}">
+							<a href="{% url 'product:products' %}">Products</a>
+							<ul class="dropdown">
+							   {% for cat in pcategories %}
+							   <li><a href="{% url 'product:show-category' cat.slug %}">{{ cat.name }}</a></li>
+							   {% endfor %}
+							</ul>
+						</li>
+						<li {% if request.resolver_match.url_name == 'about' %}class="active"{% endif %}><a href="{% url 'home:about' %}">About</a></li>
+						<li class="has-dropdown">
+							<a href="#">Services</a>
+							<ul class="dropdown">
+								<li><a href="#">Web Design</a></li>
+								<li><a href="#">eCommerce</a></li>
+								<li><a href="#">Branding</a></li>
+								<li><a href="#">API</a></li>
+							</ul>
+						</li>
+						<li {% if request.resolver_match.url_name == 'contact' %}class="active"{% endif %}><a href="{% url 'home:contact' %}">Contact</a></li>
+						<li class="has-dropdown {% if nbar == 'profile' %}active{% endif %}">
+						  <a href="{% url 'account:profile' %}"><i class="icon-lock login"></i> Account</a>
+						   <ul class="dropdown">
+							
+						     {% if user.id is not None  %}
 
-	{% include "partials/footer.html" %}
+						     <li>
+						     <span>
+							 <img src="{% static 'images/userimage.png' %}" style="height:40px; border-radius:30%;">
+							 </span>
+						     <a href="{% url 'account:logout' %}">logout</a>
+						    </li>
+							<li><a href="{% url 'account:profile' %}">Profile</a></li>
+						    {% else %}  
+						     <li><a href="{% url 'account:login' %}">Login</a></li>
+							  <li><a href="{% url 'account:registration' %}">Sign up</a></li>
+						     {% endif %}  
+							
+						   </ul>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-3 col-xs-4 text-right hidden-xs menu-2">
+					<ul>
+						<li class="search">
+							<div class="input-group">
+						      <input type="text" placeholder="Search..">
+						      <span class="input-group-btn">
+						        <button class="btn btn-primary" type="button"><i class="icon-search"></i></button>
+						      </span>
+						    </div>
+						</li>
+						{% if request.user.is_authenticated %}
+						<li class="shopping-cart"><a href="#" class="cart"><span><small>0</small><i class="icon-shopping-cart"></i></span></a></li>
+						{% else %}
+						{% endif %}
+						
+					</ul>
+				</div>
+			</div>
+			
+		</div>
+    </nav>
+	{% block aside %}
+	
+	{% endblock aside %}
+
+	{% block service %}
+	
+	{% endblock service %}
+	{% block product %}
+	
+	{% endblock product %}
+	{% block testimony %}
+	
+	{% endblock testimony %}
+	{% block counter %}
+	
+	{% endblock counter %}
+    
+    {% block newsletter %}
+    
+    {% endblock newsletter %}
+
+<footer id="fh5co-footer" role="contentinfo">
+		<div class="container">
+			<div class="row row-pb-md">
+				<div class="col-md-4 fh5co-widget">
+					<h3><img class="mix-blend-mode" src="https://res.cloudinary.com/dyrp3aqdq/image/upload/v1642513665/inuwalogo_ymgoty.png" width="180" height="150" alt="logo"/></h3>
+					<p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
+				</div>
+				<div class="col-md-2 col-sm-4 col-xs-6 col-md-push-1">
+					<ul class="fh5co-footer-links">
+						<li><a href="#">About</a></li>
+						<li><a href="#">Help</a></li>
+						<li><a href="#">Contact</a></li>
+						<li><a href="#">Terms</a></li>
+						<li><a href="#">Meetups</a></li>
+					</ul>
+				</div>
+
+				<div class="col-md-2 col-sm-4 col-xs-6 col-md-push-1">
+					<ul class="fh5co-footer-links">
+						<li><a href="#">Shop</a></li>
+						<li><a href="#">Privacy</a></li>
+						<li><a href="#">Testimonials</a></li>
+						<li><a href="#">Handbook</a></li>
+						<li><a href="#">Held Desk</a></li>
+					</ul>
+				</div>
+
+				<div class="col-md-2 col-sm-4 col-xs-6 col-md-push-1">
+					<ul class="fh5co-footer-links">
+						<li><a href="#">Find Designers</a></li>
+						<li><a href="#">Find Developers</a></li>
+						<li><a href="#">Teams</a></li>
+						<li><a href="#">Advertise</a></li>
+						<li><a href="#">API</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="row copyright">
+				<div class="col-md-12 text-center">
+					<p>
+						<small class="block">&copy; 2021 AgroFarm All Rights Reserved.</small> 
+						{% comment %} <small class="block">Designed by <a href="http://freehtml5.co/" target="_blank">FreeHTML5.co</a> Demo Images: <a href="http://blog.gessato.com/" target="_blank">Gessato</a> &amp; <a href="http://unsplash.co/" target="_blank">Unsplash</a></small> {% endcomment %}
+					</p>
+					<p>
+						<ul class="fh5co-social-icons">
+							<li><a href="#"><i class="icon-twitter"></i></a></li>
+							<li><a href="#"><i class="icon-facebook"></i></a></li>
+							<li><a href="#"><i class="icon-linkedin"></i></a></li>
+							<li><a href="#"><i class="icon-dribbble"></i></a></li>
+						</ul>
+					</p>
+				</div>
+			</div>
+
+		</div>
+</footer>
 	</div>
 
 	<div class="gototop js-top">
