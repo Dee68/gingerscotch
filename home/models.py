@@ -1,5 +1,6 @@
 from django.db import models
 from ckeditor_uploader.fields import RichTextUploadingField
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class Setting(models.Model):
@@ -13,9 +14,9 @@ class Setting(models.Model):
     company = models.CharField(max_length=100)
     address = models.CharField(blank=True, max_length=100)
     phone = models.CharField(blank=True, max_length=20)
-    fax = models.CharField(blank=True, max_length=20)
+    fax = models.CharField(blank=True, max_length=20) 
     email = models.EmailField(blank=True, max_length=50)
-    icon = models.ImageField(blank=True, upload_to='icons/')
+    icon = CloudinaryField('image')#models.ImageField(blank=True, upload_to='icons/')
     facebook = models.CharField(blank=True, max_length=20)
     instagram = models.CharField(blank=True, max_length=20)
     twitter = models.CharField(blank=True, max_length=20)
