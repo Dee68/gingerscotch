@@ -23,3 +23,9 @@ class ShowSubCategory(View):
             products = Product.objects.filter(category=cat)
         
         return render(request, 'product/sub_category.html', {'products':products,'cat':cat})
+
+class AllCategories(View):
+    def get(self, request):
+        categories = Category.objects.filter(parent__isnull=False)
+        context = {'categories':categories}
+        return render(request, 'product/allcategories.html', context)

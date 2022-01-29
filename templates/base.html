@@ -160,25 +160,22 @@
 			<div class="row row-pb-md">
 				<div class="col-md-4 fh5co-widget">
 					<h3><img class="mix-blend-mode" src="https://res.cloudinary.com/dyrp3aqdq/image/upload/v1642513665/inuwalogo_ymgoty.png" width="180" height="150" alt="logo"/></h3>
-					<p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p>
+					<p>We truly serve the best.</p>
+					{% comment %} <p>Facilis ipsum reprehenderit nemo molestias. Aut cum mollitia reprehenderit. Eos cumque dicta adipisci architecto culpa amet.</p> {% endcomment %}
 				</div>
 				<div class="col-md-2 col-sm-4 col-xs-6 col-md-push-1">
 					<ul class="fh5co-footer-links">
 						<li><a href="#">About</a></li>
-						<li><a href="#">Help</a></li>
 						<li><a href="#">Contact</a></li>
-						<li><a href="#">Terms</a></li>
-						<li><a href="#">Meetups</a></li>
+						<li><a href="#">Services</a></li>
 					</ul>
 				</div>
 
 				<div class="col-md-2 col-sm-4 col-xs-6 col-md-push-1">
 					<ul class="fh5co-footer-links">
-						<li><a href="#">Shop</a></li>
-						<li><a href="#">Privacy</a></li>
-						<li><a href="#">Testimonials</a></li>
-						<li><a href="#">Handbook</a></li>
-						<li><a href="#">Held Desk</a></li>
+						<li><a href="{% url 'home:home' %}">Home</a></li>
+						<li><a href="{% url 'product:products' %}">Products</a></li>
+						<li><a href="{% url 'product:allcategories' %}">Categories</a></li>
 					</ul>
 				</div>
 
