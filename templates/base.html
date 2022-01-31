@@ -53,10 +53,10 @@
 			m[0].classList.add('hide');
 		}
 		}, 3000);
-		
-  /*  function grandTotal(){
+	/*	
+   function grandTotal(){
          $.ajax({
-               url:"{% url 'products:get_cart_data' %}",
+               url:"{% url 'product:get_cart_data' %}",
                type:'get',
                success:function(data){
                    p = Math.round(100-((data.offer/data.total)*100),2)
