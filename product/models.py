@@ -1,9 +1,12 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.safestring import mark_safe
+from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from mptt.models import MPTTModel, TreeForeignKey
 from cloudinary.models import CloudinaryField
 from django.conf import settings
+from account.models import Customer
 # Create your models here.
 class Category(MPTTModel):
     name = models.CharField(max_length=100)
@@ -45,6 +48,9 @@ class Product(models.Model):
     updated = models.DateTimeField(auto_now=True)
     users_wishlist = models.ManyToManyField(settings.AUTH_USER_MODEL, blank=True,related_name='users_wishlist')
 
+    def get_absolute_url(self):
+        return reverse('product:product-detail',args=[self.id,self.slug])
+
     def __str__(self):
         return self.name
 
@@ -61,6 +67,53 @@ class Picture(models.Model):
 
     def __str__(self):
         return self.title
+
+class Cart(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    status = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def get_total(self):
+        total = self.quantity * self.product.price
+        return total
+
+    def __str__(self):
+        return "Cart Id:{} attached to customer:{}".format(str(self.id),str(self.customer))
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    product_ids = models.CharField(max_length=100)
+    cart_id = models.CharField(max_length=100)
+    complete = models.BooleanField(default=False)
+    invoice_id = models.CharField(max_length=100, blank=True, null=True)
+
+    def __str__(self) :
+        return  "Order of ID:{} on this date: {} by {}".format(str(self.id),str(self.date_ordered.strftime('%d /%m/%Y')),str(self.customer))
+
+
+class ShippingAddress(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL,null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL,null=True)
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    zipcode = models.CharField(max_length=100,null=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.address
+
+class Notification(models.Model):
+    recipient = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    text = RichTextField()
+    read = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Notification for:{self.recipient}"
 
 
     

@@ -29,3 +29,11 @@ class AllCategories(View):
         categories = Category.objects.filter(parent__isnull=False)
         context = {'categories':categories}
         return render(request, 'product/allcategories.html', context)
+
+
+class ProductDetail(View):
+    def get(self, request, id, slug):
+        product = get_object_or_404(Product, id=id, slug=slug)
+        ppictures = Picture.objects.filter(product=product)
+        context = {'product':product,'ppictures':ppictures}
+        return render(request, 'product/product_detail.html', context)
