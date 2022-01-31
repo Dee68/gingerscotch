@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Picture, Product
+from .models import Category, Picture, Product, Cart, Order, ShippingAddress, Notification
 from mptt.admin import DraggableMPTTAdmin
 # Register your models here.
 class CategoryAdmin(DraggableMPTTAdmin):
@@ -48,3 +48,7 @@ class ProductAdmin(admin.ModelAdmin):
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Picture)
 admin.site.register(Product,ProductAdmin)
+admin.site.register(Cart)
+admin.site.register(Order)
+admin.site.register(ShippingAddress)
+admin.site.register(Notification)
