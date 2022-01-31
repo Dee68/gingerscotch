@@ -24,7 +24,7 @@
 				</div>
 			</div>
 		</div>
-</header>
+    </header>
 {% endblock aside %}
  
 {% block product %}
@@ -47,10 +47,10 @@
 					</div>
 					<div class="row animate-box">
 						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
-							<h2 id="pro{{ product.id }}">{{ product.title }}</h2>
+							<h2 id="pro{{ product.id }}">{{ product.name }}</h2>
 							<p>
 							{% if request.user.is_authenticated %}
-							<form action="#" method="POST">
+							<form action="{% url 'product:cart_details' %}" method="POST">
 							   {% csrf_token %} 
 							    <input type="hidden" value="{{ product.id }}" name="pid" id="p{{ product.id }}">
                                 <input type="hidden" value="1" name="qty" id="qty">
@@ -85,7 +85,7 @@
 							<div class="fh5co-tab-content tab-content active" data-tab-content="1">
 								<div class="col-md-10 col-md-offset-1">
 									<span class="price">Price: #{{ product.price }}</span>
-									<h2>{{ product.title }}</h2>
+									<h2>{{ product.name }}</h2>
 									<p>{{ product.description | safe }}</p>
 
 									{% comment %} <div class="row">

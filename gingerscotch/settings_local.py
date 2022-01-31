@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'mptt',
     'cloudinary_storage',
     'cloudinary',
+    
 ]
 
 MIDDLEWARE = [

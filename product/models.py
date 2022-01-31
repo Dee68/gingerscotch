@@ -69,7 +69,7 @@ class Picture(models.Model):
         return self.title
 
 class Cart(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, blank=True, null=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, blank=True, null=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     status = models.BooleanField(default=False)
@@ -85,7 +85,7 @@ class Cart(models.Model):
         return "Cart Id:{} attached to customer:{}".format(str(self.id),str(self.customer))
 
 class Order(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, blank=True, null=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, blank=True, null=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
     product_ids = models.CharField(max_length=100)
     cart_id = models.CharField(max_length=100)
@@ -97,7 +97,7 @@ class Order(models.Model):
 
 
 class ShippingAddress(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.SET_NULL,null=True)
+    customer = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL,null=True)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)

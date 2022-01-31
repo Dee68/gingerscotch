@@ -53,11 +53,70 @@
 			m[0].classList.add('hide');
 		}
 		}, 3000);
-	
+		
+	   function grandTotal(){
+         $.ajax({
+               url:"{% url 'product:get_cart_data' %}",
+               type:'get',
+               success:function(data){
+                   //p = Math.round(100-((data.offer/data.total)*100),2)
+                   //save = data.total-data.offer;
+				   gtotal = data.total + 2
+                   $("#item_total").html("&#x20A6;"+data.total);
+                    $("#quantity").html(data.quantity+" Items");
+					$("#cartitems").html(data.quantity);
+                    $("#grand_total").html("&#8358;"+gtotal+ ".00");
+                    
+               }
+           })
+       }
+    grandTotal(); 
+
+      function change_quan(id,action){
+           let old = $("#cart"+id).val();
+            
+           quan = 0
+           if(action=="plus"){
+               quan += parseInt(old)+1
+           }else{
+               quan += parseInt(old)-1
+           }
+           
+
+
+          $("#cart"+id).val(quan);
+           
+           $.ajax({
+               url:"{% url 'product:change_quan' %}",
+               type:"get",
+               data:{cid:id, quantity:quan},
+               success:function(data){
+                   grandTotal();
+                 if(data==0){
+                    remove_cart(id);
+                 }
+               }
+           })
+       } 
+    
+       function remove_cart(id){
+           $.ajax({
+               url:"{% url 'product:change_quan' %}",
+               data:{delete_cart:id},
+               success:function(data){
+                    grandTotal();
+                    $("#row"+id).hide();
+               }
+
+           })
+      }
+	      
 		
 	</script>
 	
-	
+	{% block header %}
+    
+	 {% endblock header %}
 
 	</head>
 	<body>
@@ -125,7 +184,7 @@
 						    </div>
 						</li>
 						{% if request.user.is_authenticated %}
-						<li class="shopping-cart"><a href="#" class="cart"><span><small>0</small><i class="icon-shopping-cart"></i></span></a></li>
+						<li class="shopping-cart"><a href="{% url 'product:cart_details' %}" class="cart"><span><small  id="cartitems">0</small><i class="icon-shopping-cart"></i></span></a></li>
 						{% else %}
 						{% endif %}
 						
