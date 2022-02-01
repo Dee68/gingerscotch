@@ -26,6 +26,7 @@
 			{% for category in categories %}
 				<div class="col-md-4 text-center animate-box">
 					<div class="product">
+					 <a href="{% url 'product:show-subcategory' category.slug %}">
 						<div class="product-grid" style="background-image:url({{ category.image.url }});">
 							<div class="inner">
 								<p>
@@ -34,6 +35,7 @@
 								</p>
 							</div>
 						</div>
+						</a>
 						<div class="desc">
 							<h3><a href="{% url 'product:show-subcategory' category.slug %}">{{ category.name }}</a></h3>
 							{% comment %} <span class="price">${{ product.price }}</span> {% endcomment %}
