@@ -2,19 +2,13 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.utils.safestring import mark_safe
+from cloudinary.models import CloudinaryField
 # Create your models here.
 
 class CustomUser(AbstractUser):
     is_customer = models.BooleanField("Is Customer",default=False)
     is_manager = models.BooleanField("Is Manager",default=False)
     
-    
-    
-    
-    
-
-
-
 
 class Customer(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,primary_key=True)
@@ -54,7 +48,7 @@ class Profile(models.Model):
     occupation = models.CharField(max_length=100,null=True,blank=True)
     country = models.CharField(blank=True, max_length=20)
     company = models.CharField(null=True, blank=True, max_length=100)
-    avatar = models.ImageField(blank=True, upload_to="profile_pics/", default="/userimage.png")
+    avatar = CloudinaryField('image')#models.ImageField(blank=True, upload_to="profile_pics/", default="/userimage.png") 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

@@ -1,7 +1,7 @@
 from re import M
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from .models import CustomUser,Customer, Manager
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .models import CustomUser,Profile, Customer, Manager
 from django.db import transaction
 
 
@@ -69,6 +69,30 @@ class LoginForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ('username','password')
+
+class ProfileUpdateForm(forms.ModelForm):
+    genders = (('male','male'),('female','female'),)
+    gender = forms.ChoiceField(choices=genders, widget=forms.RadioSelect(attrs={'placeholder':'gender'}))
+    bio = forms.CharField(max_length=100, widget=forms.Textarea(attrs={'class':'form-control','placeholder':'Enter bio ...'}))
+    phone = forms.CharField(max_length=100,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Telephone'}))
+    country = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Country'}))
+    city = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'city'}))
+    address = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'address'}))
+    company = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'company'}))
+    avatar = forms.ImageField(widget=forms.FileInput(attrs={'class':'form-control','placeholder':'Upload your avatar'}))
+    class Meta:
+        model = Profile
+        fields = ['gender','bio','phone','country','city','address','company','avatar']
+
+
+class UserUpdateForm(UserChangeForm):
+    username = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Username','name':'username','id':'usernameField','value':""}))
+    email = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','id':'email','placeholder':'Enter Email','name':'email','value':''}))
+    first_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'first_name','name':'first_name','id':'firstnameField','value':""}))
+    last_name = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'last_name','name':'last_name','id':'lastnameField','value':""}))
+    class Meta:
+        model = CustomUser
+        fields = ['username','email','first_name','last_name']
 
     
         

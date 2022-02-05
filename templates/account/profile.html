@@ -1,15 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
+{% load cloudinary %}
 {% block title %}
   User Profile
 {% endblock title %}
 
 {% comment %} {% block header %}
   <link rel="stylesheet" href="{% static 'css/cart.css' %}">
-{% endblock header %} {% endcomment %}
-
-
-{% block content %}
+{% endblock header %}  {% endcomment %}
+{% block aside %}
 	<header id="fh5co-header" class="fh5co-cover fh5co-cover-sm" role="banner" style="background-image:url({% static 'images/img_bg_2.jpg' %});">
 		<div class="overlay"></div>
 		<div class="container">
@@ -17,14 +16,18 @@
 				<div class="col-md-8 col-md-offset-2 text-center">
 					<div class="display-t">
 						<div class="display-tc animate-box" data-animate-effect="fadeIn">
-							{% comment %} <h1>Contact Us</h1>
-							<h2>Agro Farm <a href="#" target="_blank">Themewagon</a></h2> {% endcomment %}
+							<h1>Profile</h1>
+							<h2>Agro Farm <a href="#" target="_blank">Themewagon</a></h2>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</header>
+{% endblock aside %}
+
+{% block product %}
+	
 <div id="fh5co-contact">
 
 	<!-- Shopping Cart -->
@@ -40,7 +43,7 @@
 							<li class="comments"><a href="#">MY Comments</a></li>
 							<li class="bell"><a href="#">+ notification</a></li> 
 							<li class="favourite"><a href="#">My Favourites</a></li>
-							<li class="cart"><a href="#">My Cart</a></li>
+							<li class="cart"><a href="{% url 'product:cart_details' %}">My Cart</a></li>
                             <li class="login"><a href="{% url 'account:logout' %}">Logout</a></li>
 						</ul>
 					</div>
@@ -61,9 +64,15 @@
 					<table class="table shopping-summery">
 						<thead>
 							<tr class="main-hading">
-								<th><a href="#" class="btn btn-primary">Update Profile</a></th>
-								<th><a href="#" class="btn btn-primary">Change Password</a></th>
-							<th><img src="{% if userprofile.image %}{{ userprofile.image.url }}{% else %}{% static 'images/userimage.png' %}{% endif %}" style="height:70px; border-radius:30%;"></th>
+								<th><a href="{% url 'account:profile-update' %}" class="btn btn-primary">Update Profile</a></th>
+								<th><a href="{% url 'password-change' %}" class="btn btn-primary">Change Password</a></th>
+							<th>
+							{% if userprofile.avatar == null %}
+							 <img src="{{ userprofile.avatar.url}}" style="height:70px; border-radius:30%;">
+							{% else %}
+							<img src="https://res.cloudinary.com/dyrp3aqdq/image/upload/v1644094165/userimage_j61wqm.png" style="height:70px; border-radius:30%;">
+							{% endif %}
+							</th>
 								
 			
 							</tr>
@@ -112,6 +121,12 @@
 								
 							</tr>
                             <tr>
+								<td class="image" data-title="No">Occupation</td>
+								<td></td>
+								<td class="price" data-title="Price"><span>{{ userprofile.occupation }} </span></td>
+								
+							</tr>
+							<tr>
 								<td class="image" data-title="No">Country</td>
 								<td></td>
 								<td class="price" data-title="Price"><span>{{ userprofile.country }} </span></td>
@@ -123,6 +138,13 @@
 								<td class="price" data-title="Price"><span>{{ userprofile.company }} </span></td>
 								
 							</tr>
+							<tr>
+								<td class="image" data-title="No">Avatar</td>
+								<td></td>
+								<td class="price" data-title="Price"><span>{{ userprofile.avatar.url }} </span></td>
+								
+							</tr>
+
 						</tbody>
 					</table>
 					<!--/ End Shopping Summery -->

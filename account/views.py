@@ -6,11 +6,13 @@ from django.db import transaction
 from django.views.generic import TemplateView
 from .models import CustomUser, Profile, Customer, Manager
 from product.models import Category
-from .forms import CustomerCreationForm, ManagerCreationForm,LoginForm
-from django.core.mail import EmailMessage,send_mail
+from .forms import CustomerCreationForm, ManagerCreationForm,LoginForm, ProfileUpdateForm, UserUpdateForm
+from django.core.mail import send_mail
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
@@ -200,8 +202,6 @@ class ManageUserRegister(View):
 
     
 
-
-
 class UsernamevalidationView(View):
     def post(self,request):
         data = json.loads(request.body)
@@ -275,8 +275,22 @@ class LogoutPage(View):
         logout(request)
         return redirect('home:home')
 
+@method_decorator(login_required, name='dispatch')
 class ProfileView(View):
     def get(self, request, *args, **kwargs):
         userprofile = get_object_or_404(Profile,user=request.user)
         context = {'userprofile':userprofile,'nbar':'profile'}
         return render(request, 'account/profile.html', context)
+
+
+@method_decorator(login_required, name='dispatch')
+class ProfileUpdate(View):
+    def get(self, request, *args, **kwargs):
+        userprofile = get_object_or_404(Profile, user=request.user)
+        user_form = UserUpdateForm(instance=request.user)
+        profile_form = ProfileUpdateForm(instance=userprofile)
+        context = {'userprofile':userprofile,'user_form':user_form,'profile_form':profile_form}
+        return render(request, 'account/profile_update.html', context)
+
+    def post(self, request, *args, **kwargs):
+        pass
