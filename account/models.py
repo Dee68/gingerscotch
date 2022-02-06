@@ -48,7 +48,7 @@ class Profile(models.Model):
     occupation = models.CharField(max_length=100,null=True,blank=True)
     country = models.CharField(blank=True, max_length=20)
     company = models.CharField(null=True, blank=True, max_length=100)
-    avatar = CloudinaryField('image', default='')#models.ImageField(blank=True, upload_to="profile_pics/", default="/userimage.png") 
+    avatar = CloudinaryField('image', default='https://res.cloudinary.com/dyrp3aqdq/image/upload/v1644094165/userimage_j61wqm.png')#models.ImageField(blank=True, upload_to="profile_pics/", default="/userimage.png") 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
