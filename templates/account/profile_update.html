@@ -25,6 +25,15 @@
 {% block product %}
 <div id="fh5co-contact">
 		<div class="container">
+		 			{% if messages %}
+				     {% for message in messages %}
+					  <div class="alert alert-{{ message.level_tag}}">
+					   {{ message }}
+					  </div>
+					  {% endfor %}
+				    
+				      {% else %}
+				      {% endif %}
 			<div class="row">
 				<div class="col-md-2 col-md-push-1 animate-box">
 					
