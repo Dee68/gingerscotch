@@ -160,7 +160,7 @@
 
 						     <li>
 						     <span>
-							 <img src="{% static 'images/userimage.png' %}" style="height:40px; border-radius:30%;">
+							 <img src="{% if userprofile.avatar  %}{{ userprofile.avatar.url }}{% else %}https://res.cloudinary.com/dyrp3aqdq/image/upload/v1644094165/userimage_j61wqm.png{% endif %}" style="height:40px; border-radius:30%;">
 							 </span>
 						     <a href="{% url 'account:logout' %}">logout</a>
 						    </li>

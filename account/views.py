@@ -293,4 +293,14 @@ class ProfileUpdate(View):
         return render(request, 'account/profile_update.html', context)
 
     def post(self, request, *args, **kwargs):
-        pass
+        userprofile = get_object_or_404(Profile, user=request.user)
+        user_form = UserUpdateForm(request.POST, instance=request.user)
+        profile_form = ProfileUpdateForm(request.POST, request.FILES, instance=userprofile)
+        context = {'userprofile':userprofile,'user_form':user_form,'profile_form':profile_form}
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request,'Your profile has been updated.')
+            return redirect('account:profile')
+        else:
+            return render(request, 'account/profile_update.html',context)

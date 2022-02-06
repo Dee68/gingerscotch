@@ -67,11 +67,7 @@
 								<th><a href="{% url 'account:profile-update' %}" class="btn btn-primary">Update Profile</a></th>
 								<th><a href="{% url 'password-change' %}" class="btn btn-primary">Change Password</a></th>
 							<th>
-							{% if userprofile.avatar == null %}
-							 <img src="{{ userprofile.avatar.url}}" style="height:70px; border-radius:30%;">
-							{% else %}
-							<img src="https://res.cloudinary.com/dyrp3aqdq/image/upload/v1644094165/userimage_j61wqm.png" style="height:70px; border-radius:30%;">
-							{% endif %}
+							<img src="{% if userprofile.avatar  %}{{ userprofile.avatar.url }}{% else %}https://res.cloudinary.com/dyrp3aqdq/image/upload/v1644094165/userimage_j61wqm.png{% endif %}" style="height:70px; border-radius:30%;">
 							</th>
 								
 			
