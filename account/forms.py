@@ -70,19 +70,24 @@ class LoginForm(forms.ModelForm):
         model = CustomUser
         fields = ('username','password')
 
+
+
+
+genders = (('male','male'),('female','female'),)
+
 class ProfileUpdateForm(forms.ModelForm):
-    genders = (('male','male'),('female','female'),)
     gender = forms.ChoiceField(choices=genders, widget=forms.RadioSelect(attrs={'placeholder':'gender'}))
     bio = forms.CharField(max_length=100, widget=forms.Textarea(attrs={'class':'form-control','placeholder':'Enter bio ...'}))
     phone = forms.CharField(max_length=100,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Telephone'}))
     country = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Country'}))
     city = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'city'}))
+    occupation = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'occupation'}))
     address = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'address'}))
     company = forms.CharField(max_length=100, widget=forms.TextInput(attrs={'class':'form-control','placeholder':'company'}))
     avatar = forms.ImageField(widget=forms.FileInput(attrs={'class':'form-control','placeholder':'Upload your avatar'}))
     class Meta:
         model = Profile
-        fields = ['gender','bio','phone','country','city','address','company','avatar']
+        fields = ['gender','bio','phone','country','city','occupation','address','company','avatar']
 
 
 class UserUpdateForm(UserChangeForm):
