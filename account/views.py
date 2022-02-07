@@ -5,7 +5,7 @@ from django.views import View
 from django.db import transaction
 from django.views.generic import TemplateView
 from .models import CustomUser, Profile, Customer, Manager
-from product.models import Category
+from product.models import Category,Product
 from .forms import CustomerCreationForm, ManagerCreationForm,LoginForm, ProfileUpdateForm, UserUpdateForm
 from django.core.mail import send_mail
 from django.utils.decorators import method_decorator
@@ -304,3 +304,33 @@ class ProfileUpdate(View):
             return redirect('account:profile')
         else:
             return render(request, 'account/profile_update.html',context)
+
+@method_decorator(login_required, name='dispatch')
+class WishListView(View):
+    def get(self, request, *args, **kwargs):
+        products = Product.objects.filter(users_wishlist=request.user)
+        context = {'products':products}
+        return render(request, 'account/whishlist.html', context)
+
+@login_required
+def add_to_whishlist(request, id):
+    product = get_object_or_404(Product, id=id)
+    if product.users_wishlist.filter(id=request.user.id).exists():
+        product.users_wishlist.remove(request.user)
+        messages.warning(request, product.name +' removed from whishlist.')
+    else:
+        product.users_wishlist.add(request.user)
+        messages.success(request, product.name+' added to whishlist.')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+# @method_decorator(login_required, name='dispatch')
+# class AddToWhishList(View):
+#     def get(self, request, id):
+#         product = get_object_or_404(Product, id=id)
+#         if product.users_wishlist.filter(id=request.user.id).exists():
+#             product.users_wishlist.remove(request.user)
+#             messages.warning(request, product.name +' removed from whishlist.')
+#         else:
+#             product.users_wishlist.add(request.user)
+#             messages.success(request, product.name+' added to whishlist.')
+#         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

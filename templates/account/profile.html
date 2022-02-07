@@ -42,7 +42,7 @@
 						<ul>
 							<li class="comments"><a href="#">MY Comments</a></li>
 							<li class="bell"><a href="#">+ notification</a></li> 
-							<li class="favourite"><a href="#">My Favourites</a></li>
+							<li class="favourite"><a href="{% url 'account:whishlist' %}">My Favourites</a></li>
 							<li class="cart"><a href="{% url 'product:cart_details' %}">My Cart</a></li>
                             <li class="login"><a href="{% url 'account:logout' %}">Logout</a></li>
 						</ul>
