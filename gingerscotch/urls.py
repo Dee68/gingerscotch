@@ -23,13 +23,13 @@ from django.contrib.auth.decorators import login_required
 urlpatterns = [
     path('', include('home.urls', namespace='home')),
     path('products/', include('product.urls', namespace='product')),
-    path('account/', include('account.urls', namespace='account')),
+    path('accounts/', include('account.urls', namespace='account')),
     path('admin/', admin.site.urls),
     path('ckeditor/',include('ckeditor_uploader.urls')),
     # authentication views from django framework
-    path('account/password-change/', login_required(auth_views.PasswordChangeView.as_view(template_name='account/password_change.html')), 
+    path('accounts/password-change/', login_required(auth_views.PasswordChangeView.as_view(template_name='account/password_change.html')), 
     name='password-change'), 
-    path('account/password-change/done/', login_required(auth_views.PasswordChangeDoneView.as_view(template_name='account/password_change_done.html')), 
+    path('accounts/password-change/done/', login_required(auth_views.PasswordChangeDoneView.as_view(template_name='account/password_change_done.html')), 
     name='password_change_done'),
     # ========================
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name='account/password_reset.html'), 

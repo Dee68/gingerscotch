@@ -8,8 +8,8 @@ from .models import CustomUser, Profile, Customer, Manager
 from product.models import Category,Product
 from .forms import CustomerCreationForm, ManagerCreationForm,LoginForm, ProfileUpdateForm, UserUpdateForm
 from django.core.mail import send_mail
-from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.utils.encoding import force_bytes, force_text
@@ -28,7 +28,6 @@ class RegistrationView(TemplateView):
     template_name = 'account/user_type.html'
     
         
-
 
 
 class CustomUserRegister(View):
@@ -192,13 +191,6 @@ class ManageUserRegister(View):
             messages.error(request,"Invalid form, please fill in all fields.")
             return render(request, 'account/manager_register.html', context)
 
-        
-
-
-
-
-
-
 
     
 
@@ -275,16 +267,16 @@ class LogoutPage(View):
         logout(request)
         return redirect('home:home')
 
-@method_decorator(login_required, name='dispatch')
-class ProfileView(View):
+
+class ProfileView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         userprofile = get_object_or_404(Profile,user=request.user)
         context = {'userprofile':userprofile,'nbar':'profile'}
         return render(request, 'account/profile.html', context)
 
 
-@method_decorator(login_required, name='dispatch')
-class ProfileUpdate(View):
+
+class ProfileUpdate(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         userprofile = get_object_or_404(Profile, user=request.user)
         user_form = UserUpdateForm(instance=request.user)
@@ -305,8 +297,8 @@ class ProfileUpdate(View):
         else:
             return render(request, 'account/profile_update.html',context)
 
-@method_decorator(login_required, name='dispatch')
-class WishListView(View):
+
+class WishListView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         products = Product.objects.filter(users_wishlist=request.user)
         context = {'products':products}
