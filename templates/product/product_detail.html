@@ -32,13 +32,13 @@
 		<div class="container">
 			<div class="row">
 			 {% include "partials/_messages.html" %}
-				<div class="col-md-10 col-md-offset-1 animate-box">
+				<div class="col-md-10 col-md-offset-1 animate-box text-center">
 					<div class="owl-carousel owl-carousel-fullwidth product-carousel">
 					    {% for pic in ppictures %}
-						<div class="item">
-							<div class="active text-center">
-								<figure>
-									<img src="{{ pic.image.url }}" alt="product images" width="400">
+						<div class="item"> 
+							<div class="active">
+								<figure style="text-align:center;margin:auto;">
+									<img src="{{ pic.image.url }}" alt="product images" style="width:100%; height:auto;">
 								</figure>
 							</div>
 						</div>
@@ -48,7 +48,7 @@
 					<div class="row animate-box">
 						<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
 							<h2 id="pro{{ product.id }}">{{ product.name }}</h2>
-							<p>
+							
 							{% if request.user.is_authenticated %}
 							<form action="{% url 'product:cart_details' %}" method="POST">
 							   {% csrf_token %} 
@@ -65,7 +65,7 @@
 							  
 								{% comment %} <a href="#" class="btn btn-primary btn-outline btn-lg">Compare</a> {% endcomment %}
 								
-							</p>
+							
 						</div>
 					</div>
 				</div>
