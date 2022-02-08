@@ -4138,7 +4138,7 @@ tbody.collapse.in {
   padding: 10px 20px;
   line-height: 1.42857;
   text-decoration: none;
-  color: #337ab7;
+  color: #3c763d;;
   background-color: #fff;
   border: 1px solid #ddd;
   margin-left: -1px;
@@ -4168,8 +4168,8 @@ tbody.collapse.in {
 .pagination > .active > span:focus {
   z-index: 2;
   color: #fff;
-  background-color: #337ab7;
-  border-color: #337ab7;
+  background-color: #3c763d;;
+  border-color: #3c763d;;
   cursor: default;
 }
 .pagination > .disabled > span,

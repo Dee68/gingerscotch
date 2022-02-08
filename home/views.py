@@ -4,20 +4,31 @@ from django.contrib import messages
 from product.models import *
 from .models import *
 from .forms import ContactMessageForm,SubscribersForm
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView,ListView, FormView
 from django.views import View
 from django.http import HttpResponseRedirect
-# from django.views.generic.list import ListView
+from django.core.paginator import Paginator
+
 # Create your views here.
 
-class ShopList(View):
-    def get(self, request, *args, **kwargs):
-        form = SubscribersForm()
-        context = {'form':form }
-        return render(request, 'home/index.html',context)
+class ProductList(ListView):
+    model = Product
+    template_name='home/index.html'
+    context_object_name = "products"
+    paginate_by = 6
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] = SubscribersForm
+        return context
+
+class SubscriberAdd(FormView):
+    template_name = 'home/index.html'
+    form_class = SubscribersForm
+    model = SubscribedUser
 
     def post(self, request, *args, **kwargs):
-        form = SubscribersForm(request.POST)
+        form = self.get_form()
         if form.is_valid():
             data = SubscribedUser()
             data.email = form.cleaned_data.get('email')
@@ -30,6 +41,15 @@ class ShopList(View):
                 return HttpResponseRedirect('/')
         context = {'form':form}
         return render(request, 'home/index.html', context)
+
+class ShopList(View):
+    def get(self, request, *args, **kwargs):
+        view = ProductList.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = SubscriberAdd.as_view()
+        return view(request, *args, **kwargs)
 
 class AboutUs(TemplateView):
     template_name = 'home/about.html'

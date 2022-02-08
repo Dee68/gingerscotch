@@ -2,15 +2,21 @@ from django.shortcuts import render,get_object_or_404
 from django.http import JsonResponse,HttpResponseRedirect, HttpResponse
 from django.conf import settings
 from django.views import View
+from django.views.generic import ListView
 from .models import *
 from account.models import CustomUser
 from django.contrib import messages
 # Create your views here.
 
-class ProductListView(View):
-    def get(self, request, *args, **kwargs):
-        context = {'nbar': 'products'} 
-        return render(request, 'product/home.html',context)
+class ProductListView(ListView):
+    context_object_name = 'products'
+    paginate_by = 6
+    model = Product
+    template_name = 'product/home.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['nbar'] = "products"
+        return context
 
 
 # @login_required(login_url='account/login')
