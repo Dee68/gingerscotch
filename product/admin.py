@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Picture, Product, Cart, Order, ShippingAddress, Notification
+from .models import Category, Picture, Product, Cart, Order, ShippingAddress, Notification, Review
 from mptt.admin import DraggableMPTTAdmin
 # Register your models here.
 class CategoryAdmin(DraggableMPTTAdmin):
@@ -44,6 +44,9 @@ class ProductAdmin(admin.ModelAdmin):
     readonly_fields = ['image_tag']
     prepopulated_fields = {'slug':('name',)}
 
+class ReviewAdmin(admin.ModelAdmin):
+    list_display = ['name','message','rating']
+
 
 admin.site.register(Category,CategoryAdmin)
 admin.site.register(Picture)
@@ -52,3 +55,4 @@ admin.site.register(Cart)
 admin.site.register(Order)
 admin.site.register(ShippingAddress)
 admin.site.register(Notification)
+admin.site.register(Review,ReviewAdmin)

@@ -3,9 +3,9 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib import messages
 from django.views import View
 from django.db import transaction
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, FormView, CreateView
 from .models import CustomUser, Profile, Customer, Manager
-from product.models import Category,Product
+from product.models import Category,Product, Picture
 from .forms import CustomerCreationForm, ManagerCreationForm,LoginForm, ProfileUpdateForm, UserUpdateForm
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
@@ -304,25 +304,19 @@ class WishListView(LoginRequiredMixin, View):
         context = {'products':products}
         return render(request, 'account/whishlist.html', context)
 
-@login_required
-def add_to_whishlist(request, id):
-    product = get_object_or_404(Product, id=id)
-    if product.users_wishlist.filter(id=request.user.id).exists():
-        product.users_wishlist.remove(request.user)
-        messages.warning(request, product.name +' removed from whishlist.')
-    else:
-        product.users_wishlist.add(request.user)
-        messages.success(request, product.name+' added to whishlist.')
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-# @method_decorator(login_required, name='dispatch')
-# class AddToWhishList(View):
-#     def get(self, request, id):
-#         product = get_object_or_404(Product, id=id)
-#         if product.users_wishlist.filter(id=request.user.id).exists():
-#             product.users_wishlist.remove(request.user)
-#             messages.warning(request, product.name +' removed from whishlist.')
-#         else:
-#             product.users_wishlist.add(request.user)
-#             messages.success(request, product.name+' added to whishlist.')
-#         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+
+class AddToWhishList(LoginRequiredMixin,TemplateView):
+    def get(self, request, id):
+        product = get_object_or_404(Product, id=id)
+        if product.users_wishlist.filter(id=request.user.id).exists():
+            product.users_wishlist.remove(request.user)
+            messages.warning(request, product.name +' removed from whishlist.')
+        else:
+            product.users_wishlist.add(request.user)
+            messages.success(request, product.name+' added to whishlist.')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+   

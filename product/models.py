@@ -115,6 +115,26 @@ class Notification(models.Model):
     def __str__(self):
         return f"Notification for:{self.recipient}"
 
+class Review(models.Model):
+    name = models.CharField(max_length=100)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="reviews")
+    message = models.TextField(max_length=255)
+    rating = models.IntegerField(default=1)
+    ip = models.CharField(max_length=100, blank=True)
+    # user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('-created_at',)
+
+
+    def get_absolute_url(self):
+        return reverse('product:add-review', args=[self.product.id])
+
+
+    def __str__(self):
+        return f'Review of {self.name}'
+
 
     
     
