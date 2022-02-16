@@ -37,15 +37,19 @@ class CategoryAdmin(DraggableMPTTAdmin):
         return instance.products_cumulative_count
     related_products_cumulative_count.short_description = 'Related products (in tree)'
 
+class ReviewInLine(admin.StackedInline):
+    model = Review
+    extra = 0
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = ['name','image_tag','in_stock', 'price','category']
     list_filter = ['in_stock','created','updated']
     list_editable = ['price','in_stock']
     readonly_fields = ['image_tag']
     prepopulated_fields = {'slug':('name',)}
+    inlines = [ ReviewInLine,]
 
-class ReviewAdmin(admin.ModelAdmin):
-    list_display = ['name','message','rating']
+
 
 
 admin.site.register(Category,CategoryAdmin)
@@ -55,4 +59,4 @@ admin.site.register(Cart)
 admin.site.register(Order)
 admin.site.register(ShippingAddress)
 admin.site.register(Notification)
-admin.site.register(Review,ReviewAdmin)
+admin.site.register(Review)

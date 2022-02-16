@@ -8,9 +8,9 @@ class ReviewForm(forms.ModelForm):
         model = Review
         fields = ['name','message','rating']
 
-        # widgets = {
-        #     'name':forms.TextInput(attrs={'class':'form-control','id':'name','name':'name','placeholder':'Enter your name'}),
-        #     'message':forms.Textarea(attrs={'class':'form-control','id':'message','name':'message','placeholder':'Enter your review'}),
-        #     'rating':forms.IntegerField()
-        # }
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(ReviewForm, self).__init__(*args, **kwargs)
+
+       
        

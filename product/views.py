@@ -4,7 +4,8 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views import View
-from django.views.generic import ListView, FormView,CreateView
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic import ListView, FormView,CreateView,DetailView
 from .models import *
 from .forms import ReviewForm
 from account.models import CustomUser
@@ -122,48 +123,79 @@ def add_review(request, id):
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         return render(request, 'product/product_detail.html', context)
 
-class AddReview(CreateView):
-    model = Review
-    template_name = 'product/product_review.html'
-    form_class = ReviewForm
-    success_url = reverse_lazy('product:products')
+# class AddReview(CreateView):
+#     model = Review
+#     template_name = 'product/product_review.html'
+#     form_class = ReviewForm
+#     success_url = reverse_lazy('product:products')
     
+#     def form_valid(self, form):
+#         form.instance.product_id = self.kwargs['id']
+#         form.instance.ip = self.request.META.get('REMOTE_ADDR')
+#         form.instance.name = self.request.user
+#         # form.instance.next = self.request.POST.get('next')
+#         return super().form_valid(form)
+
+    
+
+
+
+class ReviewDisplay(DetailView):
+    model = Product
+    template_name = 'product/product_detail.html'
+    context_object_name = 'product'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        self.object = self.get_object()
+        product = self.object
+        ppictures = Picture.objects.filter(product=product)
+        specifications = product.specification.split(",")
+        context['ppictures'] = ppictures
+        context['specifications'] = specifications
+        context['form'] = ReviewForm()
+        return context
+
+class Reviewproduct(SingleObjectMixin, FormView):
+    model = Product
+    form_class = ReviewForm
+    template_name = 'product/product_review.html'  
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().post(request, *args, **kwargs)
+
+    def get_form_kwargs(self):
+        kwargs = super(Reviewproduct, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
     def form_valid(self, form):
-        form.instance.product_id = self.kwargs['id']
-        form.instance.ip = self.request.META.get('REMOTE_ADDR')
-        form.instance.name = self.request.user
-        # form.instance.next = self.request.POST.get('next')
+        review = form.save(commit=False)
+        review.product = self.object
+        review.ip = self.request.META.get('REMOTE_ADDR')
+        review.save()
         return super().form_valid(form)
 
-    # def get_success_url(self):
-    #     if 'next' in self.request.POST:
-    #         return redirect(self.request.GET['next'])
-
-        
-
-    # def get_form_kwargs(self, *args, **kwargs):
-    #     kwargs = super(AddReview, self).get_form_kwargs(*args, **kwargs)
-    #     kwargs['user'] = self.request.user
-    #     kwargs['ip'] = self.request.META.get('REMOTE_ADDR')
-    #     return kwargs
-
-
-class Review(LoginRequiredMixin, View):
-    def get(self, request, id):
-        product = get_object_or_404(Product, id=id)
-        # reviews = Review.objects.filter(product=product)
-        context = {'product':product}
-        return render(request, 'product/product_detail.html', context)
-
-    
+    def get_success_url(self):
+        product = self.object
+        return reverse('product:product-detail', kwargs={'id':product.id,'slug':product.slug})+'#reviews'
 
 
 class ProductDetail(View):
-    def get(self, request, id, slug):
-        product = get_object_or_404(Product, id=id, slug=slug)
-        # review = get_object_or_404(Review, product=product.id)
-        ppictures = Picture.objects.filter(product=product)
-        specifications = product.specification.split(",")
-        context = {'product':product,'ppictures':ppictures,'specifications':specifications}
-        return render(request, 'product/product_detail.html', context)
+    def get(self, request, *args, **kwargs):
+        view = ReviewDisplay.as_view()
+        return view(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        view = Reviewproduct.as_view()
+        return view(request, *args, **kwargs)
+    # def get(self, request, id, slug):
+    #     product = get_object_or_404(Product, id=id, slug=slug)
+    #     # review = get_object_or_404(Review, product=product.id)
+    #     ppictures = Picture.objects.filter(product=product)
+    #     specifications = product.specification.split(",")
+    #     context = {'product':product,'ppictures':ppictures,'specifications':specifications}
+    #     return render(request, 'product/product_detail.html', context)
 

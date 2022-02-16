@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'account.apps.AccountConfig',
     'product.apps.ProductConfig',
     'home.apps.HomeConfig',
+    'service.apps.ServiceConfig',
     'ckeditor',
     'ckeditor_uploader',
     'mptt',

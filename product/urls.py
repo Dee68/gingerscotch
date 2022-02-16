@@ -6,8 +6,8 @@ from .views import (
     ShowSubCategory,
     AllCategories,
     ProductDetail,
-    AddReview,
-    Review,
+    # AddReview,
+    # Review,
     add_review,
     # ShowReview,
     add_to_cart,
@@ -37,7 +37,7 @@ urlpatterns = [
     path('<str:cat_slug>/', ShowSubCategory.as_view(), name='show-subcategory'),
     # shows product Details
     path('<int:id>/<str:slug>/',ProductDetail.as_view(), name='product-detail'),
-    path('add-review/<int:id>/', AddReview.as_view(), name='add-review'),
+    # path('add-review/<int:id>/', AddReview.as_view(), name='add-review'),
     
     
     
