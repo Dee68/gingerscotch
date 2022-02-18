@@ -199,11 +199,13 @@ class UsernamevalidationView(View):
         data = json.loads(request.body)
         username = data['username']
         if not str(username).isalnum():
-            return JsonResponse({'username_error':'Username should contain only alphanumeric characters.'}, status=400)
+            data['username_error'] = 'Username should contain only alphanumeric characters.'
+            return JsonResponse(data, status=400)
         if CustomUser.objects.filter(username=username).exists():
-            return JsonResponse({'username_error':'Sorry username already in use, choose another.'}, status=409)
-        
-        return JsonResponse({'username_valid':True}, status=200)
+            data['username_error'] = 'Sorry username already in use, choose another.'
+            return JsonResponse(data, status=409)
+        data['username_valid'] = True
+        return JsonResponse(data, status=200)
 
 class EmailValidation(View):
     def post(self,request):

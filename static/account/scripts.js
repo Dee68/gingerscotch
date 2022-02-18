@@ -1,3 +1,19 @@
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+const csrftoken = getCookie('csrftoken');
 const usernameField = document.querySelector('#usernameField');
 const feedbackArea = document.querySelector(".invalid-feedback");
 const usernameSuccess = document.querySelector(".usernameSuccess");
@@ -25,7 +41,9 @@ usernameField.addEventListener('keyup', (e) => {
     feedbackArea.style.display = 'none';
     usernameSuccess.textContent = `Checking ${usernameVal}`;
     if (usernameVal.length > 0) {
-        fetch('/account/validate-username', {
+        const url = '/accounts/validate-username';
+        fetch(url,
+            {
             body: JSON.stringify({ 'username': usernameVal }),
             method: 'POST'
         }).then(res => res.json()).then(data => {
@@ -56,7 +74,7 @@ emailField.addEventListener('keyup', (e) => {
     emailSuccess.textContent = `Checking ${emailVal}`;
     emailSuccess.style.display = 'block';
     if (emailVal.length > 0) {
-        fetch("/account/validate-email", {
+        fetch("/accounts/validate-email", {
             body: JSON.stringify({ "email": emailVal }),
             method: "POST",
         }).then(res => res.json()).then((data) => {

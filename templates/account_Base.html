@@ -16,7 +16,7 @@
 <link href="{% static 'account/style.css' %}" rel="stylesheet" type="text/css" media="all" />
 <link href="{% static 'css/icomoon.css' %}" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
+{% comment %} <script src="{% static 'account/scripts.js' %}"></script> {% endcomment %}
 <!-- //Custom Theme files -->
 <!-- web font -->
 <link href="//fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i" rel="stylesheet">
@@ -26,7 +26,7 @@
 	<!-- main -->
 	<div class="main-w3layouts wrapper">
 		<h1>{% block header %}
-        
+         
         {% endblock header %}</h1>
 		{% block content %}
         
@@ -37,5 +37,6 @@
 		{% include "partials/bubble.html" %}
 	</div>
 	<!-- //main -->
+
 </body>
 </html>

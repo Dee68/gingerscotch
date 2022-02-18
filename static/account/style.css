@@ -200,7 +200,7 @@ input.email, input.text.w3lpass {
 .invalid-feedback p {
   color:#C71C22 !important
 }
-.invalid-feedback{display:none;width:100%;margin-top:0.25rem;font-size:80%;color:#C71C22 !important}
+.invalid-feedback{display:none;width:100%;margin-top:0.25rem;font-size:80%;color:#C71C22 !important;}
 .is-invalid {
   border: 2px solid red;
 }
